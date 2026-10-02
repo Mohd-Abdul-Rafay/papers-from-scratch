@@ -12,6 +12,13 @@ python alexnet/alexnet.py   # parameter report, shape trace, LRN-order check
 
 ## Architecture
 
+![AlexNet architecture: layers with parameter counts to scale, grouped layers and LRN placement marked](alexnet.png)
+
+*Bar length is linear in parameter count. `groups=2 · GPU split` marks the
+layers whose kernels see only their own GPU's half of the input maps. LRN
+rows show normalisation sitting before max-pooling. Regenerate with
+`python make_diagrams.py`.*
+
 Input is 3 × 224 × 224. Output shapes, params and connections are from
 `torchinfo`. "Connections" means mult-adds per image, counting each bias as
 one connection, as LeNet-5's paper does.

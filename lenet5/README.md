@@ -13,6 +13,11 @@ python lenet5/lenet5.py     # parameter report, shape check, loss check, prototy
 
 ## Architecture
 
+![LeNet-5 architecture: layers with parameter counts to scale, and the C3 connection table](lenet5.png)
+
+*Bar length is linear in parameter count. The grid on the right is the C3
+connection table (Table I). Regenerate with `python make_diagrams.py`.*
+
 Input is a single 32×32 channel. "Connections" are the paper's figures (§II.B),
 except where marked.
 

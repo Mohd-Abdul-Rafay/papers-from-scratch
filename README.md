@@ -69,11 +69,12 @@ pip install -r requirements.txt
 
 python lenet5/lenet5.py
 python alexnet/alexnet.py
+python make_diagrams.py     # regenerates lenet5/lenet5.png, alexnet/alexnet.png
 ```
 
 Each script prints a layer-by-layer parameter report against the paper and runs
-a forward-pass shape check. Tested with Python 3.14, torch 2.14, torchvision 0.29
-and torchinfo 1.8. Datasets go under `data/`, which is git-ignored.
+a forward-pass shape check. Tested with Python 3.14, torch 2.14, torchvision 0.29,
+torchinfo 1.8 and matplotlib 3.11. Datasets go under `data/`, which is git-ignored.
 
 ## What this repo checks
 
