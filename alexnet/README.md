@@ -57,6 +57,57 @@ the paper does publish, 60 million, matches.
 `torchinfo` labels its mult-adds line `(Units.MEGABYTES)`. That label is
 wrong: the value is a count, 725.07 **million** multiply-adds.
 
+### Full torchinfo output
+
+<details>
+<summary>Full torchinfo output (1 × 3 × 224 × 224 input)</summary>
+
+```
+===================================================================================================================
+Layer (type (var_name))                  Output Shape              Param #                   Mult-Adds
+===================================================================================================================
+AlexNet (AlexNet)                        [1, 1000]                 --                        --
+├─Sequential (features)                  [1, 256, 6, 6]            --                        --
+│    └─Conv2d (conv1)                    [1, 96, 55, 55]           34,944                    105,705,600
+│    └─ReLU (relu1)                      [1, 96, 55, 55]           --                        --
+│    └─LocalResponseNorm (lrn1)          [1, 96, 55, 55]           --                        --
+│    └─MaxPool2d (pool1)                 [1, 96, 27, 27]           --                        --
+│    └─Conv2d (conv2)                    [1, 256, 27, 27]          307,456                   224,135,424
+│    └─ReLU (relu2)                      [1, 256, 27, 27]          --                        --
+│    └─LocalResponseNorm (lrn2)          [1, 256, 27, 27]          --                        --
+│    └─MaxPool2d (pool2)                 [1, 256, 13, 13]          --                        --
+│    └─Conv2d (conv3)                    [1, 384, 13, 13]          885,120                   149,585,280
+│    └─ReLU (relu3)                      [1, 384, 13, 13]          --                        --
+│    └─Conv2d (conv4)                    [1, 384, 13, 13]          663,936                   112,205,184
+│    └─ReLU (relu4)                      [1, 384, 13, 13]          --                        --
+│    └─Conv2d (conv5)                    [1, 256, 13, 13]          442,624                   74,803,456
+│    └─ReLU (relu5)                      [1, 256, 13, 13]          --                        --
+│    └─MaxPool2d (pool5)                 [1, 256, 6, 6]            --                        --
+├─Sequential (classifier)                [1, 1000]                 --                        --
+│    └─Linear (fc1)                      [1, 4096]                 37,752,832                37,752,832
+│    └─ReLU (relu6)                      [1, 4096]                 --                        --
+│    └─Dropout (drop6)                   [1, 4096]                 --                        --
+│    └─Linear (fc2)                      [1, 4096]                 16,781,312                16,781,312
+│    └─ReLU (relu7)                      [1, 4096]                 --                        --
+│    └─Dropout (drop7)                   [1, 4096]                 --                        --
+│    └─Linear (fc3)                      [1, 1000]                 4,097,000                 4,097,000
+===================================================================================================================
+Total params: 60,965,224
+Trainable params: 60,965,224
+Non-trainable params: 0
+Total mult-adds (Units.MEGABYTES): 725.07
+===================================================================================================================
+Input size (MB): 0.60
+Forward/backward pass size (MB): 5.27
+Params size (MB): 243.86
+Estimated Total Size (MB): 249.74
+===================================================================================================================
+```
+
+The `(Units.MEGABYTES)` label is torchinfo's mistake: the value is 725.07 **million** mult-adds.
+
+</details>
+
 ## Details most implementations get wrong
 
 **1. LRN comes *before* max-pooling, not after.** §3.5: "Response-normalization

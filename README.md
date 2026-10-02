@@ -1,6 +1,21 @@
 # papers-from-scratch
 
-Faithful from-scratch PyTorch reimplementations of foundational computer vision papers, with parameter counts verified against the published figures and notes on the details most implementations get wrong.
+[![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/pytorch-2.0%2B-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+[![Papers implemented](https://img.shields.io/badge/papers-2-informational?style=flat-square)](#implemented-papers)
+
+This repo holds from-scratch PyTorch reimplementations of foundational computer
+vision papers, built to match what each paper describes rather than what later
+frameworks made convenient. Faithfulness matters because the convenient version
+is often a different model. Common implementations of AlexNet get its
+parameter count wrong, apply its normalisation five times weaker than the paper
+specifies, and drop the wrong activations. Common implementations of LeNet-5
+swap its trainable subsampling for plain average pooling, ignore C3's partial
+connection table, and pick the predicted class with `argmax` from what are
+actually distances. Each implementation here checks its counts against the
+paper's own figures, and each README lists the details that are easy to get
+wrong and every place the code still departs from the paper.
 
 ## Implemented papers
 
@@ -14,30 +29,34 @@ Paper PDFs are not committed to this repo.
 
 ## Verification
 
-Parameter counts and mult-adds are taken from `torchinfo` output, not hand-computed.
+All counts are from `torchinfo` output, not computed by hand.
 
-| Model | Params (this repo) | Params (paper) | Match |
-|---|---:|---:|:---:|
-| LeNet-5 | 60,000 | 60,000 (§II.A, and per layer in §II.B) | ✅ exact, all 6 layers |
-| AlexNet | 60,965,224 | "60 million" (abstract) | ✅ |
+| Model | Quantity | This repo | Paper | Match |
+|---|---|---:|---:|---|
+| LeNet-5 | Parameters | 60,000 | 60,000 (§II.A) | Exact |
+| LeNet-5 | Per-layer parameters | 156 / 12 / 1,516 / 32 / 48,120 / 10,164 | same (§II.B) | Exact, 6 of 6 layers |
+| LeNet-5 | Connections | 340,908 | 340,908 (§II.A) | Exact, once the output layer's 840 connections are included |
+| AlexNet | Parameters | 60,965,224 | "60 million" (abstract) | Consistent (the paper gives only the rounded total) |
 
-Each model's README has the per-layer breakdown, and the LeNet-5 README
-reconciles the paper's stated 340,908 connections against its per-layer figures.
+Each model's README has the layer-by-layer breakdown.
 
 ## Scale: fourteen years apart
 
-| | Params | Mult-adds |
-|---|---:|---:|
-| LeNet-5 (1998) | 60,000 | 0.33 M |
-| AlexNet (2012) | 60,965,224 | 725.07 M |
-| **Ratio** | **1,016×** | **2,183×** |
+| | Parameters | Mult-adds (`torchinfo`) | Connections (full count) |
+|---|---:|---:|---:|
+| LeNet-5 (1998) | 60,000 | 332,188 (0.33 M) | 340,908 |
+| AlexNet (2012) | 60,965,224 | 725,066,088 (725.07 M) | 725,066,088 |
+| **Ratio** | **1,016×** | **2,183×** | **2,127×** |
 
-The compute ratio uses exact totals: 725,066,088 / 332,188. Dividing the
-rounded figures (725.07 / 0.33) gives 2,197×, which is wrong.
-
-LeNet-5's mult-adds are `torchinfo`'s count, which omits the custom S2, S4 and
-RBF layers. Including them (the paper's 340,908 connections) gives a ratio of
-2,127×.
+There are two compute ratios because `torchinfo` undercounts LeNet-5. It
+only counts built-in `Conv2d` and `Linear` modules. It cannot see inside
+LeNet-5's custom S2 and S4 subsampling layers or the RBF output layer, which
+together contribute 7,880 + 840 connections. Its 332,188 is therefore low, and
+dividing by it gives the larger ratio, 2,183×. The full count of 340,908 is
+the figure the paper states, and gives 2,127×. AlexNet is built entirely from
+standard modules, so `torchinfo`'s count for it is complete. Both ratios use
+exact totals. Dividing the rounded figures (725.07 / 0.33) gives 2,197×, which
+is wrong.
 
 ## Setup
 
@@ -53,8 +72,29 @@ python alexnet/alexnet.py
 ```
 
 Each script prints a layer-by-layer parameter report against the paper and runs
-a forward-pass shape check. Tested with Python 3.14, torch 2.14, torchvision 0.29,
-torchinfo 1.8. Datasets go under `data/`, which is git-ignored.
+a forward-pass shape check. Tested with Python 3.14, torch 2.14, torchvision 0.29
+and torchinfo 1.8. Datasets go under `data/`, which is git-ignored.
+
+## What this repo checks
+
+Three findings that come from checking the code against the papers rather
+than against other implementations:
+
+1. **LeNet-5's 340,908 connections reconcile exactly.** The paper's
+   per-layer connection figures (§II.B) sum to 340,068, which is 840 short
+   of the total it states in §II.A. The gap is exactly the output RBF layer
+   (84 inputs × 10 classes), which §II.B never counts. With it included,
+   every figure in the paper agrees. [Derivation](lenet5/README.md#connections-reconciling-the-papers-total)
+2. **AlexNet's LRN sits before max-pooling.** §3.5 puts response
+   normalisation directly after the ReLU of conv1 and conv2, with pooling
+   after it. The script checks the order at runtime. Separately, PyTorch's
+   `LocalResponseNorm` divides `alpha` by the window size, so the paper's
+   α = 1e-4 must be passed as `alpha=5e-4`. Numerically verified. [Details](alexnet/README.md#details-most-implementations-get-wrong)
+3. **AlexNet's dropout drops the outputs of fc1 and fc2.** §4.2 applies it
+   to the outputs of the first two fully-connected layers, which hold 89.4%
+   of the parameters. The common torchvision ordering (Dropout → Linear)
+   instead drops the 9,216 conv features, which the paper never drops, and
+   leaves fc2's output undropped. [Details](alexnet/README.md#details-most-implementations-get-wrong)
 
 ## License
 

@@ -80,6 +80,63 @@ contribute nothing. For C1, C3, C5 and F6 its numbers match the paper's
 connection counts exactly, since it counts bias terms as one connection each,
 as the paper does.
 
+### Full torchinfo output
+
+<details>
+<summary>Full torchinfo output (1 × 1 × 32 × 32 input)</summary>
+
+```
+===================================================================================================================
+Layer (type (var_name))                  Output Shape              Param #                   Mult-Adds
+===================================================================================================================
+LeNet5 (LeNet5)                          [1, 10]                   --                        --
+├─Conv2d (c1)                            [1, 6, 28, 28]            156                       122,304
+├─LeNetActivation (c1_activation)        [1, 6, 28, 28]            --                        --
+├─SubsamplingLayer (s2)                  [1, 6, 14, 14]            12                        --
+│    └─LeNetActivation (activation)      [1, 6, 14, 14]            --                        --
+├─C3Layer (c3)                           [1, 16, 10, 10]           --                        --
+│    └─ModuleList (convs)                --                        --                        --
+│    │    └─Conv2d (0)                   [1, 1, 10, 10]            76                        7,600
+│    │    └─Conv2d (1)                   [1, 1, 10, 10]            76                        7,600
+│    │    └─Conv2d (2)                   [1, 1, 10, 10]            76                        7,600
+│    │    └─Conv2d (3)                   [1, 1, 10, 10]            76                        7,600
+│    │    └─Conv2d (4)                   [1, 1, 10, 10]            76                        7,600
+│    │    └─Conv2d (5)                   [1, 1, 10, 10]            76                        7,600
+│    │    └─Conv2d (6)                   [1, 1, 10, 10]            101                       10,100
+│    │    └─Conv2d (7)                   [1, 1, 10, 10]            101                       10,100
+│    │    └─Conv2d (8)                   [1, 1, 10, 10]            101                       10,100
+│    │    └─Conv2d (9)                   [1, 1, 10, 10]            101                       10,100
+│    │    └─Conv2d (10)                  [1, 1, 10, 10]            101                       10,100
+│    │    └─Conv2d (11)                  [1, 1, 10, 10]            101                       10,100
+│    │    └─Conv2d (12)                  [1, 1, 10, 10]            101                       10,100
+│    │    └─Conv2d (13)                  [1, 1, 10, 10]            101                       10,100
+│    │    └─Conv2d (14)                  [1, 1, 10, 10]            101                       10,100
+│    │    └─Conv2d (15)                  [1, 1, 10, 10]            151                       15,100
+│    └─LeNetActivation (activation)      [1, 16, 10, 10]           --                        --
+├─SubsamplingLayer (s4)                  [1, 16, 5, 5]             32                        --
+│    └─LeNetActivation (activation)      [1, 16, 5, 5]             --                        --
+├─Conv2d (c5)                            [1, 120, 1, 1]            48,120                    48,120
+├─LeNetActivation (c5_activation)        [1, 120, 1, 1]            --                        --
+├─Linear (f6)                            [1, 84]                   10,164                    10,164
+├─LeNetActivation (f6_activation)        [1, 84]                   --                        --
+├─RBFLayer (rbf)                         [1, 10]                   --                        --
+===================================================================================================================
+Total params: 60,000
+Trainable params: 60,000
+Non-trainable params: 0
+Total mult-adds (Units.MEGABYTES): 0.33
+===================================================================================================================
+Input size (MB): 0.00
+Forward/backward pass size (MB): 0.05
+Params size (MB): 0.24
+Estimated Total Size (MB): 0.30
+===================================================================================================================
+```
+
+The custom S2, S4 and RBF layers show no mult-adds because torchinfo cannot see inside them. The `(Units.MEGABYTES)` label is torchinfo's mistake: the value is 0.33 **million** mult-adds.
+
+</details>
+
 ## Details most implementations get wrong
 
 **1. The activation is a scaled tanh: `1.7159 · tanh(2/3 · x)`, not `tanh` or ReLU.**
