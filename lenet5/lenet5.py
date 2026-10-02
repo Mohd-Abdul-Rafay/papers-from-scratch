@@ -14,9 +14,15 @@ Verified parameter counts (match the paper exactly):
         60,000
 """
 
+import sys
+from pathlib import Path
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))   # repo root, for utils
+from utils import match
 
 
 # ============================================================
@@ -466,15 +472,21 @@ def reject_aware_predict(model, x, threshold):
 # ============================================================
 
 def parameter_report(model):
+    # Every expected figure here is published in the paper (§II.A, §II.B).
     expected = {"c1": 156, "s2": 12, "c3": 1516, "s4": 32, "c5": 48120, "f6": 10164}
     print(f"{'layer':<6}{'actual':>10}{'paper':>10}")
-    total = 0
+    total = matched = 0
     for name, want in expected.items():
         got = sum(p.numel() for p in getattr(model, name).parameters())
         total += got
-        flag = "" if got == want else "   <-- MISMATCH"
-        print(f"{name:<6}{got:>10,}{want:>10,}{flag}")
-    print(f"{'total':<6}{total:>10,}{60000:>10,}")
+        matched += got == want
+        flag = "" if got == want else match(False)("   <-- MISMATCH")
+        print(f"{name:<6}{match(got == want)(f'{got:>10,}')}{want:>10,}{flag}")
+    print(f"{'total':<6}{match(total == 60000)(f'{total:>10,}')}{60000:>10,}")
+
+    summary = f"{matched}/{len(expected)} layer counts match the paper"
+    summary += ", total matches" if total == 60000 else ", total DOES NOT match"
+    print(f"\n{match(matched == len(expected) and total == 60000)(summary)}")
     return total
 
 

@@ -45,10 +45,15 @@ That inversion is the single most useful fact in the architecture: the conv
 stack does nearly all the work and holds almost none of the weights.
 """
 
+import sys
 from collections import OrderedDict
+from pathlib import Path
 
 import torch
 import torch.nn as nn
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))   # repo root, for utils
+from utils import dim, match
 
 
 class AlexNet(nn.Module):
@@ -261,6 +266,9 @@ def ten_crop_predict(model, crops: torch.Tensor) -> torch.Tensor:
 # ==============================================================
 
 def parameter_report(model):
+    # The paper publishes only the rounded total ("60 million parameters").
+    # These per-layer figures are DERIVED from its layer specification
+    # (§3.5, Figure 2), so they print dim rather than as paper figures.
     expected = [
         ("conv1", 34_944), ("conv2", 307_456), ("conv3", 885_120),
         ("conv4", 663_936), ("conv5", 442_624),
@@ -268,22 +276,34 @@ def parameter_report(model):
     ]
     layers = [m for m in model.modules() if isinstance(m, (nn.Conv2d, nn.Linear))]
 
-    print(f"{'layer':<8}{'actual':>13}{'paper':>13}{'share':>9}")
+    print(f"{'layer':<8}{'actual':>13}{'derived':>13}{'share':>9}")
     total = sum(p.numel() for p in model.parameters())
-    conv_total = fc_total = 0
+    conv_total = fc_total = matched = 0
 
     for (name, want), layer in zip(expected, layers):
         got = sum(p.numel() for p in layer.parameters())
-        flag = "" if got == want else "  <-- MISMATCH"
-        print(f"{name:<8}{got:>13,}{want:>13,}{100*got/total:>8.1f}%{flag}")
+        matched += got == want
+        flag = "" if got == want else match(False)("  <-- MISMATCH")
+        print(f"{name:<8}{match(got == want)(f'{got:>13,}')}{dim(f'{want:>13,}')}"
+              f"{dim(f'{100*got/total:>8.1f}%')}{flag}")
         if isinstance(layer, nn.Conv2d):
             conv_total += got
         else:
             fc_total += got
 
-    print(f"{'TOTAL':<8}{total:>13,}{60_965_224:>13,}")
-    print(f"\nCONV  {conv_total:>12,}  ({100*conv_total/total:4.1f}% of parameters)")
-    print(f"FC    {fc_total:>12,}  ({100*fc_total/total:4.1f}% of parameters)")
+    # "60 million" is a round figure, not a rounded one: 60,965,224 would
+    # round to 61M. Treat it as consistent when the total lies in [60M, 61M).
+    paper_ok = 60_000_000 <= total < 61_000_000
+    print(f"{'TOTAL':<8}{match(total == 60_965_224)(f'{total:>13,}')}{dim(f'{60_965_224:>13,}')}")
+    print(f"{'paper':<8}{match(paper_ok)(f'{total / 1e6:>12.2f}M')}{'60M':>13}   (\"60 million\", abstract)")
+    print()
+    print(dim(f"CONV  {conv_total:>12,}  ({100*conv_total/total:4.1f}% of parameters)"))
+    print(dim(f"FC    {fc_total:>12,}  ({100*fc_total/total:4.1f}% of parameters)"))
+
+    summary = (f"{matched}/{len(expected)} layer counts match the figures derived from "
+               f"the paper's layer spec; total {'is consistent with' if paper_ok else 'DOES NOT match'} "
+               f"the paper's \"60 million\"")
+    print(f"\n{match(matched == len(expected) and paper_ok)(summary)}")
     return total
 
 
