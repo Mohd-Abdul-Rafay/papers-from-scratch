@@ -69,8 +69,12 @@ pip install -r requirements.txt
 
 python lenet5/lenet5.py
 python alexnet/alexnet.py
-python make_diagrams.py     # regenerates lenet5/lenet5.png, alexnet/alexnet.png
+python make_diagrams.py     # regenerates lenet5/lenet5.{png,svg}, alexnet/alexnet.{png,svg}
 ```
+
+`make_diagrams.py` needs Inter Tight and JetBrains Mono installed (both SIL OFL)
+and prints a loud warning if either is missing -- without them the diagrams
+regenerate in fallback fonts and every SVG shows up as a diff.
 
 Each script prints a layer-by-layer parameter report against the paper and runs
 a forward-pass shape check. Tested with Python 3.14, torch 2.14, torchvision 0.29,
