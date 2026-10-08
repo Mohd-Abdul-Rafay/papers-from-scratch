@@ -409,7 +409,7 @@ def alexnet_diagram(path):
         mod = model.get_submodule(f + n)
         if mod.groups > 1:
             tag = f"groups={mod.groups} · GPU split"
-        return dict(name=n, op=op, shape=fmt_shape(shapes[f + n]),
+        return dict(name=n.capitalize(), op=op, shape=fmt_shape(shapes[f + n]),
                     params=n_params(model, f + n), kind="conv", tag=tag)
 
     def lrn_row(n):
@@ -420,8 +420,14 @@ def alexnet_diagram(path):
         return dict(name="pool", op="max-pool 3×3, stride 2 (overlapping)",
                     shape=fmt_shape(shapes[f + n]), params=0, kind=None)
 
+    # The figure uses the paper's layer names (Conv1-Conv5, FC6-FC8, as in
+    # the paper and on the portfolio page); measurements come from the
+    # code's modules -- features.conv1-conv5 and classifier.fc1-fc3 in
+    # alexnet.py, which keep their names.
+    PAPER_NAME = {"fc1": "FC6", "fc2": "FC7", "fc3": "FC8"}
+
     def fc_row(n, op):
-        return dict(name=n, op=op, shape=fmt_shape(shapes[c + n]),
+        return dict(name=PAPER_NAME[n], op=op, shape=fmt_shape(shapes[c + n]),
                     params=n_params(model, c + n), kind="fc")
 
     rows = [
@@ -442,7 +448,7 @@ def alexnet_diagram(path):
     conv_total = sum(r["params"] for r in rows if r["kind"] == "conv")
     y = draw_header(fig, ax, 0.4,
                     f"AlexNet  ·  Krizhevsky et al., 2012  ·  {total:,} parameters",
-                    f"fc1 alone holds {100 * fc1 / total:.1f}% of the parameters; all five "
+                    f"FC6 alone holds {100 * fc1 / total:.1f}% of the parameters; all five "
                     f"conv layers together hold {100 * conv_total / total:.1f}%.",
                     ["conv", "fc"])
     y = draw_layers(fig, ax, y, rows, total)
