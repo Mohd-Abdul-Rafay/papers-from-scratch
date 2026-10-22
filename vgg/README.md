@@ -290,7 +290,8 @@ python analysis.py    --compare dense:multicrop dense:"multicrop_and_dense" \
 | [`analysis.py`](analysis.py) | McNemar, rank migration, power — on saved posteriors |
 | [`figures.py`](figures.py) | Every figure, drawn from `results/`. Measures nothing. |
 | [`results/`](results/) | Every measured number, as JSON, with its provenance |
-| [`VGG.ipynb`](VGG.ipynb) | The study as a narrative, in the order it was worked out |
+| [`VGG.ipynb`](VGG.ipynb) | The session this work was done in — the real runs, in the order they ran, with commentary added around them |
+| [`polish_notebook.py`](polish_notebook.py) | Adds that commentary without touching a cell; asserts every source and output is byte-identical first |
 
 **Measurement and presentation are separate on purpose.** The scripts write
 numbers to `results/`; `figures.py` only draws them. So the figures regenerate on
