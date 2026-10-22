@@ -90,13 +90,21 @@ python vgg/vgg.py
 python make_diagrams.py     # regenerates lenet5/lenet5.{png,svg}, alexnet/alexnet.{png,svg}
 ```
 
-`vgg/dense_eval.py` is the one script that needs data — the ILSVRC-2012
-validation set as 1,000 wnid-named folders:
+`vgg/figures.py` redraws every figure in [`vgg/`](vgg/) from `vgg/results/*.json`
+and needs no data and no GPU. The scripts that produce those numbers do:
 
 ```bash
-python vgg/dense_eval.py --data /path/to/imagenet/val
-python vgg/dense_eval.py --data ... --scales 256 --protocols crop dense   # quicker
+python vgg/figures.py                                      # no data, no GPU
+python vgg/cost.py                                         # needs a CUDA GPU
+python vgg/init_study.py --data /path/to/imagenette2
+python vgg/dense_eval.py --data /path/to/imagenet/val      # 1,000 wnid folders
+python vgg/analysis.py --ranks crop:dense                  # on saved posteriors
 ```
+
+Measurement and presentation are kept apart on purpose: the scripts write their
+numbers to `results/`, and `figures.py` only draws them. So the figures
+regenerate on a laptop, and every number on one traces to a line in a JSON file
+rather than to something typed into a plotting script once and never rechecked.
 
 `make_diagrams.py` needs Inter Tight and JetBrains Mono installed (both SIL OFL)
 and prints a loud warning if either is missing -- without them the diagrams
