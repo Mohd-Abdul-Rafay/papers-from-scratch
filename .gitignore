@@ -219,3 +219,6 @@ __marimo__/
 
 # Dataset downloads (MNIST, ImageNet, ...)
 data/
+
+# macOS
+.DS_Store
