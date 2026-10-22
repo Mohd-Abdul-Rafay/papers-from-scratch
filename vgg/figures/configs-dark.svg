@@ -6,7 +6,6 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-10-22T19:47:11.058882</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -35,7 +34,7 @@ L 648 352.8
 L 648 0 
 L 0 0 
 z
-" clip-path="url(#pc46e7f5795)" style="fill: #0d1117"/>
+" clip-path="url(#p5bec9c7744)" style="fill: #0d1117"/>
    </g>
    <g id="patch_3">
     <path d="M 561.6 110.16 
@@ -43,7 +42,7 @@ L 565.597338 110.16
 L 565.597338 102.24 
 L 561.6 102.24 
 z
-" clip-path="url(#pc46e7f5795)" style="fill: #a78bfa"/>
+" clip-path="url(#p5bec9c7744)" style="fill: #a78bfa"/>
    </g>
    <g id="patch_4">
     <path d="M 561.6 135.36 
@@ -51,7 +50,7 @@ L 565.597338 135.36
 L 565.597338 127.44 
 L 561.6 127.44 
 z
-" clip-path="url(#pc46e7f5795)" style="fill: #a78bfa"/>
+" clip-path="url(#p5bec9c7744)" style="fill: #a78bfa"/>
    </g>
    <g id="patch_5">
     <path d="M 561.6 160.56 
@@ -59,7 +58,7 @@ L 565.671675 160.56
 L 565.671675 152.64 
 L 561.6 152.64 
 z
-" clip-path="url(#pc46e7f5795)" style="fill: #a78bfa"/>
+" clip-path="url(#p5bec9c7744)" style="fill: #a78bfa"/>
    </g>
    <g id="patch_6">
     <path d="M 561.6 185.76 
@@ -67,7 +66,7 @@ L 565.908438 185.76
 L 565.908438 177.84 
 L 561.6 177.84 
 z
-" clip-path="url(#pc46e7f5795)" style="fill: #a78bfa"/>
+" clip-path="url(#p5bec9c7744)" style="fill: #a78bfa"/>
    </g>
    <g id="patch_7">
     <path d="M 561.6 210.96 
@@ -75,7 +74,7 @@ L 567.725911 210.96
 L 567.725911 203.04 
 L 561.6 203.04 
 z
-" clip-path="url(#pc46e7f5795)" style="fill: #a78bfa"/>
+" clip-path="url(#p5bec9c7744)" style="fill: #a78bfa"/>
    </g>
    <g id="patch_8">
     <path d="M 561.6 236.16 
@@ -83,7 +82,7 @@ L 569.628306 236.16
 L 569.628306 228.24 
 L 561.6 228.24 
 z
-" clip-path="url(#pc46e7f5795)" style="fill: #a78bfa"/>
+" clip-path="url(#p5bec9c7744)" style="fill: #a78bfa"/>
    </g>
    <g id="text_1">
     <!-- 01  /  TABLE 1 AND TABLE 2, VERIFIED -->
@@ -2575,7 +2574,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pc46e7f5795">
+  <clipPath id="p5bec9c7744">
    <rect x="0" y="0" width="648" height="352.8"/>
   </clipPath>
  </defs>
