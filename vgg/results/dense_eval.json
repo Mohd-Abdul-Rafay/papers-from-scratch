@@ -4,63 +4,113 @@
   "needs": "the ILSVRC-2012 validation set (50,000 images) and one CUDA GPU; these figures are from an NVIDIA A100-SXM4-80GB",
   "weights": "torchvision VGG16_Weights.IMAGENET1K_V1 - configuration D, but NOT the paper's weights. Trained with RandomResizedCrop(224) and lr 1e-2 for 90 epochs, not with the paper's scale jittering over S in [256, 512], so there is no training scale S.",
   "precision": "float32 throughout - see the precision block below for why",
-  "normalisation": "torchvision's mean and standard deviation, not the paper's mean-only. The weights were trained with it; mixing the two costs accuracy silently."
+  "normalisation": "torchvision's mean and standard deviation, not the paper's mean-only. The weights were trained with it; mixing the two costs accuracy silently.",
+  "recorded": "These values were recorded from the run described above, not written by the script on this machine. Running the script overwrites this file with your own measurements, in the same shape."
  },
-
  "pipeline_check": {
   "what": "An external reference, run before any comparison was made.",
   "protocol": "resize smaller side to 256, centre-crop 224, no flip",
   "measured_top1_error_pct": 28.418,
   "torchvision_reports_pct": 28.408,
-  "gap_pct": 0.010,
+  "gap_pct": 0.01,
   "gap_images": 5,
   "reading": "Five images in fifty thousand. Every other verification in this study is internal; this one is not."
  },
-
  "precision": {
   "what": "Whether float16 autocast is safe for effects of this size.",
   "fp32_top1_error_pct": 27.642,
-  "fp16_top1_error_pct": 27.640,
+  "fp16_top1_error_pct": 27.64,
   "images_whose_top1_changed": 53,
   "pct_of_set": 0.106,
-  "fp32_seconds": 59, "fp16_seconds": 57,
+  "fp32_seconds": 59,
+  "fp16_seconds": 57,
   "decision": "float32",
   "reading": "The fp16 disagreement is 0.106%, the same size as the protocol effects being measured. It was also not measurably faster, because JPEG decoding and not the GPU is the bottleneck at this batch size. The economy was buying nothing and would have cost the result."
  },
-
  "single_scale": {
   "what": "All four protocols at Q = 256 only.",
-  "Q": [256],
+  "Q": [
+   256
+  ],
   "protocols": {
-   "crop":              {"top1": 27.642, "top5": 9.244, "flip": true},
-   "dense":             {"top1": 26.342, "top5": 8.324, "flip": true},
-   "multicrop":         {"top1": 26.112, "top5": 8.220, "flip": "inherent - 2 of the 50 crops"},
-   "multicrop & dense": {"top1": 25.944, "top5": 8.048, "flip": true}
+   "crop": {
+    "top1": 27.642,
+    "top5": 9.244,
+    "flip": true
+   },
+   "dense": {
+    "top1": 26.342,
+    "top5": 8.324,
+    "flip": true
+   },
+   "multicrop": {
+    "top1": 26.112,
+    "top5": 8.22,
+    "flip": "inherent - 2 of the 50 crops"
+   },
+   "multicrop & dense": {
+    "top1": 25.944,
+    "top5": 8.048,
+    "flip": true
+   }
   }
  },
-
  "multi_scale": {
   "what": "The paper's own protocol: posteriors averaged over three test scales.",
-  "Q": [256, 384, 512],
+  "Q": [
+   256,
+   384,
+   512
+  ],
   "paper_table_5_config_D": {
-   "dense":             {"top1": 24.8, "top5": 7.5},
-   "multicrop":         {"top1": 24.6, "top5": 7.5},
-   "multicrop & dense": {"top1": 24.4, "top5": 7.2}
+   "dense": {
+    "top1": 24.8,
+    "top5": 7.5
+   },
+   "multicrop": {
+    "top1": 24.6,
+    "top5": 7.5
+   },
+   "multicrop & dense": {
+    "top1": 24.4,
+    "top5": 7.2
+   }
   },
   "measured": {
-   "dense":             {"top1": 25.242, "top5": 7.764},
-   "multicrop":         {"top1": 25.100, "top5": 7.676},
-   "multicrop & dense": {"top1": 24.812, "top5": 7.420}
+   "dense": {
+    "top1": 25.242,
+    "top5": 7.764
+   },
+   "multicrop": {
+    "top1": 25.1,
+    "top5": 7.676
+   },
+   "multicrop & dense": {
+    "top1": 24.812,
+    "top5": 7.42
+   }
   },
-  "offset_from_paper_top1": {"dense": 0.442, "multicrop": 0.500, "multicrop & dense": 0.412},
+  "offset_from_paper_top1": {
+   "dense": 0.442,
+   "multicrop": 0.5,
+   "multicrop & dense": 0.412
+  },
   "gaps": {
-   "dense_to_multicrop":        {"measured": 0.142, "paper": 0.2},
-   "multicrop_to_combination":  {"measured": 0.168, "paper": 0.2},
-   "dense_to_combination":      {"measured": 0.430, "paper": 0.4}
+   "dense_to_multicrop": {
+    "measured": 0.142,
+    "paper": 0.2
+   },
+   "multicrop_to_combination": {
+    "measured": 0.168,
+    "paper": 0.2
+   },
+   "dense_to_combination": {
+    "measured": 0.43,
+    "paper": 0.4
+   }
   },
   "reading": "The ordering reproduces and so do the gaps. The offset moves by less than a tenth of a point across three protocols, which makes it the weights rather than the procedure - evaluation protocol and weight quality add rather than interact."
  },
-
  "mcnemar": {
   "what": "Paired comparison over per-image outcomes. Only the images two protocols disagree on carry information; under the null those disagreements split like a fair coin.",
   "why": "An aggregate difference of 0.1 points can hide 200 genuine disagreements that happened to cancel. Dense and centre-crop differ on about 5% of images while scoring almost identically - they are complementary, not equivalent, and only a paired test shows it.",
@@ -68,37 +118,148 @@
   "families": [
    {
     "name": "Table 5, multi-scale",
-    "tests": 6, "bonferroni_alpha": 0.0083,
+    "tests": 6,
+    "bonferroni_alpha": 0.0083,
     "results": [
-     {"metric": "top-1", "a": "dense", "b": "multicrop", "only_a": 1117, "only_b": 1188, "p": 0.1448, "significant": false},
-     {"metric": "top-5", "a": "dense", "b": "multicrop", "only_a": 666,  "only_b": 710,  "p": 0.2464, "significant": false},
-     {"metric": "top-1", "a": "dense", "b": "multicrop & dense", "only_a": 490, "only_b": 705, "p": 0.0000, "significant": true},
-     {"metric": "top-5", "a": "dense", "b": "multicrop & dense", "only_a": 320, "only_b": 492, "p": 0.0000, "significant": true},
-     {"metric": "top-1", "a": "multicrop", "b": "multicrop & dense", "only_a": 511, "only_b": 655, "p": 0.0000, "significant": true},
-     {"metric": "top-5", "a": "multicrop", "b": "multicrop & dense", "only_a": 256, "only_b": 384, "p": 0.0000, "significant": true}
+     {
+      "metric": "top-1",
+      "a": "dense",
+      "b": "multicrop",
+      "only_a": 1117,
+      "only_b": 1188,
+      "p": 0.1448,
+      "significant": false
+     },
+     {
+      "metric": "top-5",
+      "a": "dense",
+      "b": "multicrop",
+      "only_a": 666,
+      "only_b": 710,
+      "p": 0.2464,
+      "significant": false
+     },
+     {
+      "metric": "top-1",
+      "a": "dense",
+      "b": "multicrop & dense",
+      "only_a": 490,
+      "only_b": 705,
+      "p": 0.0,
+      "significant": true
+     },
+     {
+      "metric": "top-5",
+      "a": "dense",
+      "b": "multicrop & dense",
+      "only_a": 320,
+      "only_b": 492,
+      "p": 0.0,
+      "significant": true
+     },
+     {
+      "metric": "top-1",
+      "a": "multicrop",
+      "b": "multicrop & dense",
+      "only_a": 511,
+      "only_b": 655,
+      "p": 0.0,
+      "significant": true
+     },
+     {
+      "metric": "top-5",
+      "a": "multicrop",
+      "b": "multicrop & dense",
+      "only_a": 256,
+      "only_b": 384,
+      "p": 0.0,
+      "significant": true
+     }
     ],
     "verdict": "The paper's headline claim holds on both metrics: the combination beats each alone. That dense and multi-crop cannot be told apart is consistent with the paper's own figures, which give the two an identical 7.5 on top-5."
    },
    {
     "name": "Table 4, scale jittering at test time",
-    "tests": 2, "bonferroni_alpha": 0.025,
+    "tests": 2,
+    "bonferroni_alpha": 0.025,
     "results": [
-     {"metric": "top-1", "a": "dense, Q=256", "b": "dense, three scales", "only_a": 737, "only_b": 1287, "p": 0.0000, "significant": true},
-     {"metric": "top-1", "a": "multicrop, Q=256", "b": "multicrop, three scales", "only_a": 860, "only_b": 1366, "p": 0.0000, "significant": true}
+     {
+      "metric": "top-1",
+      "a": "dense, Q=256",
+      "b": "dense, three scales",
+      "only_a": 737,
+      "only_b": 1287,
+      "p": 0.0,
+      "significant": true
+     },
+     {
+      "metric": "top-1",
+      "a": "multicrop, Q=256",
+      "b": "multicrop, three scales",
+      "only_a": 860,
+      "only_b": 1366,
+      "p": 0.0,
+      "significant": true
+     }
     ],
     "verdict": "Confirmed for both protocols."
    }
   ]
  },
-
  "sample_size": {
   "what": "The same tests, the same code and the same weights, on a tenth of the data.",
-  "small_set": {"name": "Imagenette", "images": 3925, "classes": 10, "best_top1_error": 13.78},
-  "large_set": {"name": "ILSVRC-2012 val", "images": 50000, "classes": 1000, "best_top1_error": 24.812},
+  "small_set": {
+   "name": "Imagenette",
+   "images": 3925,
+   "classes": 10,
+   "best_top1_error": 13.78
+  },
+  "large_set": {
+   "name": "ILSVRC-2012 val",
+   "images": 50000,
+   "classes": 1000,
+   "best_top1_error": 24.812
+  },
   "comparisons": [
-   {"test": "centre-crop vs dense, top-1",      "small": [72, 87, 0.2668], "large": [1173, 1823, 0.0000]},
-   {"test": "dense vs combination, top-1",      "small": [30, 34, 0.7080], "large": [413, 612, 0.0000]},
-   {"test": "multi-crop vs combination, top-1", "small": [27, 36, 0.3135], "large": [462, 546, 0.0089]}
+   {
+    "test": "centre-crop vs dense, top-1",
+    "small": [
+     72,
+     87,
+     0.2668
+    ],
+    "large": [
+     1173,
+     1823,
+     0.0
+    ]
+   },
+   {
+    "test": "dense vs combination, top-1",
+    "small": [
+     30,
+     34,
+     0.708
+    ],
+    "large": [
+     413,
+     612,
+     0.0
+    ]
+   },
+   {
+    "test": "multi-crop vs combination, top-1",
+    "small": [
+     27,
+     36,
+     0.3135
+    ],
+    "large": [
+     462,
+     546,
+     0.0089
+    ]
+   }
   ],
   "note": "The large-set figures in this block are at Q = 256, so that only the sample changes between the two columns.",
   "power": {
@@ -109,31 +270,112 @@
    "reading": "The smaller set was not misleading, it was silent. The experiment was about two times too small for this one claim, and the two sets look identical if only one of them is ever run."
   }
  },
-
  "where_dense_acts": {
   "what": "Rank of the correct class under centre-crop against dense, at a single scale.",
-  "images": 3925, "Q": 256,
-  "buckets": ["rank 1", "rank 2-5", "rank 6+"],
-  "matrix_rows_crop_cols_dense": [[3246, 101, 0], [85, 365, 15], [10, 28, 75]],
-  "top1": {"crop": 14.73, "dense": 14.88, "mcnemar": [101, 95, 0.7211], "significant": false},
-  "top5": {"crop": 2.88,  "dense": 2.29,  "mcnemar": [15, 38, 0.0022],  "significant": true},
-  "entered_top5_under_dense": {"total": 38, "landed_at_rank_1": 10, "landed_at_rank_2_to_5": 28},
+  "images": 3925,
+  "Q": 256,
+  "buckets": [
+   "rank 1",
+   "rank 2-5",
+   "rank 6+"
+  ],
+  "matrix_rows_crop_cols_dense": [
+   [
+    3246,
+    101,
+    0
+   ],
+   [
+    85,
+    365,
+    15
+   ],
+   [
+    10,
+    28,
+    75
+   ]
+  ],
+  "top1": {
+   "crop": 14.73,
+   "dense": 14.88,
+   "mcnemar": [
+    101,
+    95,
+    0.7211
+   ],
+   "significant": false
+  },
+  "top5": {
+   "crop": 2.88,
+   "dense": 2.29,
+   "mcnemar": [
+    15,
+    38,
+    0.0022
+   ],
+   "significant": true
+  },
+  "entered_top5_under_dense": {
+   "total": 38,
+   "landed_at_rank_1": 10,
+   "landed_at_rank_2_to_5": 28
+  },
   "left_top5_under_dense": 15,
-  "mean_log_rank": {"crop": 0.1884, "dense": 0.1776,
-                    "wilcoxon_p": 0.0730, "improved": 236, "worsened": 205,
-                    "verdict": "not established - the mean was pulled by magnitude while the count stayed near even"},
+  "mean_log_rank": {
+   "crop": 0.1884,
+   "dense": 0.1776,
+   "wilcoxon_p": 0.073,
+   "improved": 236,
+   "worsened": 205,
+   "verdict": "not established - the mean was pulled by magnitude while the count stayed near even"
+  },
   "reading": "Dense evaluation improves the candidate list, not the top slot. Of the 38 images it pulls into the top five, 28 land at ranks 2-5. And of the 3,347 images the centre crop already ranked first, none fell below rank five - averaging over windows dilutes a confident right answer, it does not destroy one.",
   "competing_explanation": "Images the centre crop ranks first are the easy ones, and easy images survive any window. That is a plainer reading of the empty cell than the dilution argument, and the two were not separated."
  },
-
  "two_levers": {
   "what": "Test scale against evaluation protocol, on the same model and the same 50,000 images. Top-1 improvement in points.",
   "levers": [
-   {"change": "Q = 256 to {256, 384, 512}", "on": "combination", "points": 1.132, "p": 0.0000, "significant": true, "kind": "scale"},
-   {"change": "Q = 256 to {256, 384, 512}", "on": "dense",       "points": 1.100, "p": 0.0000, "significant": true, "kind": "scale"},
-   {"change": "Q = 256 to {256, 384, 512}", "on": "multi-crop",  "points": 1.012, "p": 0.0000, "significant": true, "kind": "scale"},
-   {"change": "dense to combination",       "on": "-",           "points": 0.430, "p": 0.0000, "significant": true, "kind": "protocol"},
-   {"change": "dense to multi-crop",        "on": "-",           "points": 0.142, "p": 0.1448, "significant": false, "kind": "protocol"}
+   {
+    "change": "Q = 256 to {256, 384, 512}",
+    "on": "combination",
+    "points": 1.132,
+    "p": 0.0,
+    "significant": true,
+    "kind": "scale"
+   },
+   {
+    "change": "Q = 256 to {256, 384, 512}",
+    "on": "dense",
+    "points": 1.1,
+    "p": 0.0,
+    "significant": true,
+    "kind": "scale"
+   },
+   {
+    "change": "Q = 256 to {256, 384, 512}",
+    "on": "multi-crop",
+    "points": 1.012,
+    "p": 0.0,
+    "significant": true,
+    "kind": "scale"
+   },
+   {
+    "change": "dense to combination",
+    "on": "-",
+    "points": 0.43,
+    "p": 0.0,
+    "significant": true,
+    "kind": "protocol"
+   },
+   {
+    "change": "dense to multi-crop",
+    "on": "-",
+    "points": 0.142,
+    "p": 0.1448,
+    "significant": false,
+    "kind": "protocol"
+   }
   ],
   "reading": "Every scale change is worth more than every protocol change, by roughly three to one. The paper gives section 4.3 and a table to the smallest of them, which is also the only one that fails its significance threshold. Both results are in the paper - Table 4 has the scale gain and Table 5 the protocol gain - but they sit in different tables with different baselines and nothing invites the reader to put them side by side."
  }

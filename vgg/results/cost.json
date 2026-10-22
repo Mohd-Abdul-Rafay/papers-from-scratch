@@ -4,7 +4,8 @@
   "needs": "one CUDA GPU; these figures are from an NVIDIA A100-SXM4-80GB",
   "method": "batch 32 at 224x224, forward + backward, median of 25 steps after warmup, torch.cuda.synchronize() on both sides of the clock, peak from torch.cuda.max_memory_allocated() after a reset",
   "note": "Re-running on different hardware or a different PyTorch build will move these numbers. The directions and the ratios are the result; the absolute milliseconds are not.",
-  "framework": "PyTorch 2.x, float32"
+  "framework": "PyTorch 2.x, float32",
+  "recorded": "These values were recorded from the run described above, not written by the script on this machine. Running the script overwrites this file with your own measurements, in the same shape."
  },
  "lrn": {
   "what": "What configuration A-LRN costs over A. Table 2 gives them the same parameter count, which is correct and says nothing about what the layer costs.",
