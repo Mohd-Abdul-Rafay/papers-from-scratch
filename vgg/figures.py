@@ -48,6 +48,7 @@ WIDTH_IN = 9.0
 # never the limit. Type size was.
 PNG_DPI = 192
 WRITE_PNG = False
+CREATOR = "figures.py"
 
 BODY = 11.0
 TITLE = 15.5
@@ -62,6 +63,20 @@ DARK = dict(bg="#0D1117", ink="#E6EDF3", muted="#8B949E", rule="#30363D",
             good="#7EE2A8", fill="#161B22")
 
 FAMILY = "Inter"
+
+# The family name alone does not pin the drawing. Inter 4.000 (Debian's
+# fonts-inter) and Inter 4.001 (Homebrew's font-inter) differ in glyph
+# outlines and in spacing: regenerating these sheets under 4.000 moves some
+# glyphs by up to 3.4 CSS px and rewrites a few outlines. Same family, same
+# script, different picture -- the DejaVu bug again, one order of magnitude
+# smaller and correspondingly easier to miss.
+#
+# 4.001 is the reference because it is what `brew install --cask font-inter`
+# installs today, which is what a reader following FONT_HELP will get. A
+# mismatch warns rather than refuses: a figure drawn in a neighbouring build
+# of the same family is still a usable figure, and the margin and collision
+# checks still have to pass. Every SVG records the version that drew it.
+FONT_VERSION = "4.001"
 
 # Every column position, sheet height and line of note text in this file was
 # measured against Inter. Another face with different metrics re-flows all of
@@ -86,6 +101,26 @@ metrics):
 
 or re-run with --font "<installed family>" to accept a different face.
 """
+
+
+def font_version(family):
+    """The version string out of the font file's own name table, or None.
+
+    Read from the file rather than from any package manager, so it reports
+    the face matplotlib will actually draw with.
+    """
+    import matplotlib.font_manager as fm
+    from matplotlib import ft2font
+    try:
+        table = ft2font.FT2Font(fm.findfont(fm.FontProperties(family=family))).get_sfnt()
+    except Exception:
+        return None
+    for key, value in table.items():
+        if key[3] == 5:                                   # name id 5: version
+            text = value.decode("utf-16-be", "ignore") if b"\x00" in value \
+                else value.decode("utf8", "ignore")
+            return text.replace("Version", "").strip()
+    return None
 
 
 def resolve_font(requested):
@@ -206,7 +241,8 @@ class Sheet:
         # fixes the element ids. Without both, regenerating a figure rewrites
         # the file with no change to the picture, so "does this still
         # reproduce?" cannot be answered by comparing the files.
-        self.fig.savefig(path, format="svg", metadata={"Date": None})   # never bbox_inches: it rescales
+        self.fig.savefig(path, format="svg",                 # never bbox_inches: it rescales
+                         metadata={"Date": None, "Creator": CREATOR})
         if WRITE_PNG and self.p is LIGHT:
             self.fig.savefig(os.path.join(FIGURES, "png", f"{name}.png"),
                              format="png", dpi=PNG_DPI)
@@ -674,6 +710,15 @@ def main():
     args = ap.parse_args()
 
     family = resolve_font(args.font)
+    version = font_version(family)
+
+    global CREATOR
+    CREATOR = f"figures.py — {family} {version or 'version unknown'}"
+    print(f"   font: {family} {version or '(version unreadable)'}")
+    if family == FAMILY and version and not version.startswith(FONT_VERSION):
+        print(f"   !! this is not the build these sheets were measured against "
+              f"({FONT_VERSION}). The checks below still apply, but the committed "
+              f"SVGs will not reproduce byte for byte.")
 
     global WRITE_PNG
     WRITE_PNG = args.png
