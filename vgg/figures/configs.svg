@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="648pt" height="339.84pt" viewBox="0 0 648 339.84" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="648pt" height="352.8pt" viewBox="0 0 648 352.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-10-22T13:45:10.183526</dc:date>
+    <dc:date>2026-10-22T19:47:10.598343</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -21,8 +21,8 @@
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 339.84 
-L 648 339.84 
+   <path d="M 0 352.8 
+L 648 352.8 
 L 648 0 
 L 0 0 
 z
@@ -30,12 +30,12 @@ z
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 0 339.84 
-L 648 339.84 
+    <path d="M 0 352.8 
+L 648 352.8 
 L 648 0 
 L 0 0 
 z
-" clip-path="url(#pe5b329cf48)" style="fill: #fbf9f4"/>
+" clip-path="url(#p97edab28ce)" style="fill: #fbf9f4"/>
    </g>
    <g id="patch_3">
     <path d="M 561.6 110.16 
@@ -43,7 +43,7 @@ L 565.597338 110.16
 L 565.597338 102.24 
 L 561.6 102.24 
 z
-" clip-path="url(#pe5b329cf48)" style="fill: #371e77"/>
+" clip-path="url(#p97edab28ce)" style="fill: #371e77"/>
    </g>
    <g id="patch_4">
     <path d="M 561.6 135.36 
@@ -51,7 +51,7 @@ L 565.597338 135.36
 L 565.597338 127.44 
 L 561.6 127.44 
 z
-" clip-path="url(#pe5b329cf48)" style="fill: #371e77"/>
+" clip-path="url(#p97edab28ce)" style="fill: #371e77"/>
    </g>
    <g id="patch_5">
     <path d="M 561.6 160.56 
@@ -59,7 +59,7 @@ L 565.671675 160.56
 L 565.671675 152.64 
 L 561.6 152.64 
 z
-" clip-path="url(#pe5b329cf48)" style="fill: #371e77"/>
+" clip-path="url(#p97edab28ce)" style="fill: #371e77"/>
    </g>
    <g id="patch_6">
     <path d="M 561.6 185.76 
@@ -67,7 +67,7 @@ L 565.908438 185.76
 L 565.908438 177.84 
 L 561.6 177.84 
 z
-" clip-path="url(#pe5b329cf48)" style="fill: #371e77"/>
+" clip-path="url(#p97edab28ce)" style="fill: #371e77"/>
    </g>
    <g id="patch_7">
     <path d="M 561.6 210.96 
@@ -75,7 +75,7 @@ L 567.725911 210.96
 L 567.725911 203.04 
 L 561.6 203.04 
 z
-" clip-path="url(#pe5b329cf48)" style="fill: #371e77"/>
+" clip-path="url(#p97edab28ce)" style="fill: #371e77"/>
    </g>
    <g id="patch_8">
     <path d="M 561.6 236.16 
@@ -83,11 +83,11 @@ L 569.628306 236.16
 L 569.628306 228.24 
 L 561.6 228.24 
 z
-" clip-path="url(#pe5b329cf48)" style="fill: #371e77"/>
+" clip-path="url(#p97edab28ce)" style="fill: #371e77"/>
    </g>
    <g id="text_1">
     <!-- 01  /  TABLE 1 AND TABLE 2, VERIFIED -->
-    <g style="fill: #371e77" transform="translate(27.36 33.19875) scale(0.09 -0.09)">
+    <g style="fill: #371e77" transform="translate(27.36 35.13625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-53f" d="M 2156 -63 
 C 3338 -63 4022 816 4022 2325 
@@ -348,7 +348,7 @@ z
    </g>
    <g id="text_2">
     <!-- Depth is the only variable -->
-    <g style="fill: #0f172a" transform="translate(27.36 53.99375) scale(0.13 -0.13)">
+    <g style="fill: #0f172a" transform="translate(27.36 56.415625) scale(0.155 -0.155)">
      <defs>
       <path id="Inter-Bold-267" d="M 1978 -69 
 C 2791 -69 3347 309 3519 891 
@@ -606,7 +606,7 @@ z
    </g>
    <g id="text_3">
     <!-- every configuration shares one kernel, one stride, one padding rule and five pools -->
-    <g style="fill: #5b6762" transform="translate(27.36 69.19875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(27.36 71.13625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-267" d="M 1963 -75 
 C 2678 -75 3200 284 3363 813 
@@ -1015,7 +1015,7 @@ z
    </g>
    <g id="text_4">
     <!-- config -->
-    <g style="fill: #5b6762" transform="translate(27.36 92.23875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(27.36 94.17625) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-24b"/>
      <use xlink:href="#Inter-Regular-318" transform="translate(57.125 0)"/>
      <use xlink:href="#Inter-Regular-307" transform="translate(117.09375 0)"/>
@@ -1026,7 +1026,7 @@ z
    </g>
    <g id="text_5">
     <!-- weight layers -->
-    <g style="fill: #5b6762" transform="translate(80.485312 92.23875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(67.970937 94.17625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-3da" d="M 1278 0 
 L 1838 0 
@@ -1068,7 +1068,7 @@ z
    </g>
    <g id="text_6">
     <!-- parameters -->
-    <g style="fill: #5b6762" transform="translate(167.532187 92.23875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(156.761562 94.17625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-300" d="M 494 0 
 L 1056 0 
@@ -1107,7 +1107,7 @@ z
    </g>
    <g id="text_7">
     <!-- paper -->
-    <g style="fill: #5b6762" transform="translate(295.600781 92.23875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(290.089844 94.17625) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-34d"/>
      <use xlink:href="#Inter-Regular-1fc" transform="translate(62.21875 0)"/>
      <use xlink:href="#Inter-Regular-34d" transform="translate(118.375 0)"/>
@@ -1117,7 +1117,7 @@ z
    </g>
    <g id="text_8">
     <!-- conv params -->
-    <g style="fill: #5b6762" transform="translate(376.957969 92.23875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(364.726406 94.17625) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-24b"/>
      <use xlink:href="#Inter-Regular-318" transform="translate(57.125 0)"/>
      <use xlink:href="#Inter-Regular-307" transform="translate(117.09375 0)"/>
@@ -1133,7 +1133,7 @@ z
    </g>
    <g id="text_9">
     <!-- conv share -->
-    <g style="fill: #5b6762" transform="translate(500.27625 92.23875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(489.84875 94.17625) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-24b"/>
      <use xlink:href="#Inter-Regular-318" transform="translate(57.125 0)"/>
      <use xlink:href="#Inter-Regular-307" transform="translate(117.09375 0)"/>
@@ -1148,13 +1148,13 @@ z
    </g>
    <g id="text_10">
     <!-- A -->
-    <g style="fill: #0f172a" transform="translate(27.36 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(27.36 110.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-2"/>
     </g>
    </g>
    <g id="text_11">
     <!-- 11 -->
-    <g style="fill: #0f172a" transform="translate(129.479062 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(127.852187 110.561465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-540" d="M 2041 4656 
 L 1313 4656 
@@ -1174,7 +1174,7 @@ z
    </g>
    <g id="text_12">
     <!-- 132,863,336 -->
-    <g style="fill: #4f7357" transform="translate(160.304062 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #4f7357" transform="translate(147.927188 110.561465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-543" d="M 2059 -63 
 C 3097 -63 3838 509 3838 1303 
@@ -1257,7 +1257,7 @@ z
    </g>
    <g id="text_13">
     <!-- 133 M -->
-    <g style="fill: #5b6762" transform="translate(294.960938 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(289.307813 110.561465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-543" d="M 1984 -63 
 C 2897 -63 3572 503 3572 1266 
@@ -1312,7 +1312,7 @@ z
    </g>
    <g id="text_14">
     <!-- 9,220,480 -->
-    <g style="fill: #0f172a" transform="translate(387.973125 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(378.189375 110.561465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-54a" d="M 1884 -63 
 C 2938 -63 3588 866 3588 2513 
@@ -1423,7 +1423,7 @@ z
    </g>
    <g id="text_15">
     <!--  6.9% -->
-    <g style="fill: #5b6762" transform="translate(522.441562 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(516.939687 110.561465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-547" d="M 2019 -63 
 C 2969 -63 3588 634 3588 1503 
@@ -1500,7 +1500,7 @@ z
    </g>
    <g id="text_16">
     <!-- A-LRN -->
-    <g style="fill: #0f172a" transform="translate(27.36 135.033926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(27.36 135.761465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-5c1" d="M 2556 2700 
 L 438 2700 
@@ -1519,14 +1519,14 @@ z
    </g>
    <g id="text_17">
     <!-- 11 -->
-    <g style="fill: #0f172a" transform="translate(129.479062 135.033926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(127.852187 135.761465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-540" transform="translate(40.671875 0)"/>
     </g>
    </g>
    <g id="text_18">
     <!-- 132,863,336 -->
-    <g style="fill: #4f7357" transform="translate(160.304062 135.033926) scale(0.09 -0.09)">
+    <g style="fill: #4f7357" transform="translate(147.927188 135.761465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-540"/>
      <use xlink:href="#Inter-Bold-543" transform="translate(43.109375 0)"/>
      <use xlink:href="#Inter-Bold-541" transform="translate(107.65625 0)"/>
@@ -1542,7 +1542,7 @@ z
    </g>
    <g id="text_19">
     <!-- 133 M -->
-    <g style="fill: #5b6762" transform="translate(294.960938 135.033926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(289.307813 135.761465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-543" transform="translate(40.671875 0)"/>
      <use xlink:href="#Inter-Regular-543" transform="translate(102.4375 0)"/>
@@ -1552,7 +1552,7 @@ z
    </g>
    <g id="text_20">
     <!-- 9,220,480 -->
-    <g style="fill: #0f172a" transform="translate(387.973125 135.033926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(378.189375 135.761465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-54a"/>
      <use xlink:href="#Inter-Regular-5df" transform="translate(59.484375 0)"/>
      <use xlink:href="#Inter-Regular-541" transform="translate(88.296875 0)"/>
@@ -1566,7 +1566,7 @@ z
    </g>
    <g id="text_21">
     <!--  6.9% -->
-    <g style="fill: #5b6762" transform="translate(522.441562 135.033926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(516.939687 135.761465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-6eb"/>
      <use xlink:href="#Inter-Regular-547" transform="translate(28.125 0)"/>
      <use xlink:href="#Inter-Regular-5e0" transform="translate(86.765625 0)"/>
@@ -1576,20 +1576,20 @@ z
    </g>
    <g id="text_22">
     <!-- B -->
-    <g style="fill: #0f172a" transform="translate(27.36 160.233926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(27.36 160.961465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-41"/>
     </g>
    </g>
    <g id="text_23">
     <!-- 13 -->
-    <g style="fill: #0f172a" transform="translate(127.580625 160.233926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(125.531875 160.961465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-543" transform="translate(40.671875 0)"/>
     </g>
    </g>
    <g id="text_24">
     <!-- 133,047,848 -->
-    <g style="fill: #4f7357" transform="translate(161.126719 160.233926) scale(0.09 -0.09)">
+    <g style="fill: #4f7357" transform="translate(148.932656 160.961465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-544" d="M 316 828 
 L 2544 828 
@@ -1639,7 +1639,7 @@ z
    </g>
    <g id="text_25">
     <!-- 133 M -->
-    <g style="fill: #5b6762" transform="translate(294.960938 160.233926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(289.307813 160.961465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-543" transform="translate(40.671875 0)"/>
      <use xlink:href="#Inter-Regular-543" transform="translate(102.4375 0)"/>
@@ -1649,7 +1649,7 @@ z
    </g>
    <g id="text_26">
     <!-- 9,404,992 -->
-    <g style="fill: #0f172a" transform="translate(387.869062 160.233926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(378.062187 160.961465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-54a"/>
      <use xlink:href="#Inter-Regular-5df" transform="translate(59.484375 0)"/>
      <use xlink:href="#Inter-Regular-544" transform="translate(88.296875 0)"/>
@@ -1663,7 +1663,7 @@ z
    </g>
    <g id="text_27">
     <!--  7.1% -->
-    <g style="fill: #5b6762" transform="translate(526.3875 160.233926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(521.7625 160.961465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-548" d="M 625 0 
 L 1250 0 
@@ -1686,7 +1686,7 @@ z
    </g>
    <g id="text_28">
     <!-- C -->
-    <g style="fill: #0f172a" transform="translate(27.36 185.433926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(27.36 186.161465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-49" d="M 2456 -63 
 C 3631 -63 4356 728 4463 1594 
@@ -1707,14 +1707,14 @@ z
    </g>
    <g id="text_29">
     <!-- 16 -->
-    <g style="fill: #0f172a" transform="translate(127.558125 185.433926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(125.504375 186.161465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-547" transform="translate(40.671875 0)"/>
     </g>
    </g>
    <g id="text_30">
     <!-- 133,638,952 -->
-    <g style="fill: #4f7357" transform="translate(160.464375 185.433926) scale(0.09 -0.09)">
+    <g style="fill: #4f7357" transform="translate(148.123125 186.161465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-54a" d="M 1988 -69 
 C 3131 -69 3866 872 3866 2441 
@@ -1770,7 +1770,7 @@ z
    </g>
    <g id="text_31">
     <!-- 134 M -->
-    <g style="fill: #5b6762" transform="translate(294.706406 185.433926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(288.996719 186.161465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-543" transform="translate(40.671875 0)"/>
      <use xlink:href="#Inter-Regular-544" transform="translate(102.4375 0)"/>
@@ -1780,7 +1780,7 @@ z
    </g>
    <g id="text_32">
     <!-- 9,996,096 -->
-    <g style="fill: #0f172a" transform="translate(388.468125 185.433926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(378.794375 186.161465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-54a"/>
      <use xlink:href="#Inter-Regular-5df" transform="translate(59.484375 0)"/>
      <use xlink:href="#Inter-Regular-54a" transform="translate(87.609375 0)"/>
@@ -1794,7 +1794,7 @@ z
    </g>
    <g id="text_33">
     <!--  7.5% -->
-    <g style="fill: #5b6762" transform="translate(523.926562 185.433926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(518.754687 186.161465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-545" d="M 1956 -63 
 C 2853 -63 3509 594 3509 1488 
@@ -1825,20 +1825,20 @@ z
    </g>
    <g id="text_34">
     <!-- D -->
-    <g style="fill: #0f172a" transform="translate(27.36 210.633926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(27.36 211.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-54"/>
     </g>
    </g>
    <g id="text_35">
     <!-- 16 -->
-    <g style="fill: #0f172a" transform="translate(127.558125 210.633926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(125.504375 211.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-547" transform="translate(40.671875 0)"/>
     </g>
    </g>
    <g id="text_36">
     <!-- 138,357,544 -->
-    <g style="fill: #4f7357" transform="translate(161.295469 210.633926) scale(0.09 -0.09)">
+    <g style="fill: #4f7357" transform="translate(149.138906 211.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-540"/>
      <use xlink:href="#Inter-Bold-543" transform="translate(43.109375 0)"/>
      <use xlink:href="#Inter-Bold-549" transform="translate(107.65625 0)"/>
@@ -1854,7 +1854,7 @@ z
    </g>
    <g id="text_37">
     <!-- 138 M -->
-    <g style="fill: #5b6762" transform="translate(294.9525 210.633926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(289.2975 211.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-543" transform="translate(40.671875 0)"/>
      <use xlink:href="#Inter-Regular-549" transform="translate(102.4375 0)"/>
@@ -1864,7 +1864,7 @@ z
    </g>
    <g id="text_38">
     <!-- 14,714,688 -->
-    <g style="fill: #0f172a" transform="translate(387.019688 210.633926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(377.024063 211.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-544" transform="translate(40.671875 0)"/>
      <use xlink:href="#Inter-Regular-5df" transform="translate(101.890625 0)"/>
@@ -1879,7 +1879,7 @@ z
    </g>
    <g id="text_39">
     <!-- 10.6% -->
-    <g style="fill: #5b6762" transform="translate(521.305312 210.633926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(515.550937 211.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-53f" transform="translate(40.671875 0)"/>
      <use xlink:href="#Inter-Regular-5e0" transform="translate(101.234375 0)"/>
@@ -1889,20 +1889,20 @@ z
    </g>
    <g id="text_40">
     <!-- E -->
-    <g style="fill: #0f172a" transform="translate(27.36 235.833926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(27.36 236.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-5f"/>
     </g>
    </g>
    <g id="text_41">
     <!-- 19 -->
-    <g style="fill: #0f172a" transform="translate(127.558125 235.833926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(125.504375 236.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-54a" transform="translate(40.671875 0)"/>
     </g>
    </g>
    <g id="text_42">
     <!-- 143,667,240 -->
-    <g style="fill: #4f7357" transform="translate(161.181563 235.833926) scale(0.09 -0.09)">
+    <g style="fill: #4f7357" transform="translate(148.999687 236.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-540"/>
      <use xlink:href="#Inter-Bold-544" transform="translate(43.109375 0)"/>
      <use xlink:href="#Inter-Bold-543" transform="translate(110.734375 0)"/>
@@ -1918,7 +1918,7 @@ z
    </g>
    <g id="text_43">
     <!-- 144 M -->
-    <g style="fill: #5b6762" transform="translate(294.451875 235.833926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(288.685625 236.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-544" transform="translate(40.671875 0)"/>
      <use xlink:href="#Inter-Regular-544" transform="translate(105.265625 0)"/>
@@ -1928,7 +1928,7 @@ z
    </g>
    <g id="text_44">
     <!-- 20,024,384 -->
-    <g style="fill: #0f172a" transform="translate(382.868438 235.833926) scale(0.09 -0.09)">
+    <g style="fill: #0f172a" transform="translate(371.950312 236.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-541"/>
      <use xlink:href="#Inter-Regular-53f" transform="translate(60.984375 0)"/>
      <use xlink:href="#Inter-Regular-5df" transform="translate(121.546875 0)"/>
@@ -1943,7 +1943,7 @@ z
    </g>
    <g id="text_45">
     <!-- 13.9% -->
-    <g style="fill: #5b6762" transform="translate(521.233594 235.833926) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(515.463281 236.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-543" transform="translate(40.671875 0)"/>
      <use xlink:href="#Inter-Regular-5e0" transform="translate(100.1875 0)"/>
@@ -1953,7 +1953,7 @@ z
    </g>
    <g id="text_46">
     <!-- All six parameter counts match Table 2 exactly; the paper prints them rounded to -->
-    <g style="fill: #5b6762" transform="translate(27.36 269.35875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(27.36 271.29625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-2" d="M 163 0 
 L 794 0 
@@ -2121,7 +2121,7 @@ z
    </g>
    <g id="text_47">
     <!-- millions, so A, A-LRN and B all read 133. A and A-LRN are identical because local -->
-    <g style="fill: #5b6762" transform="translate(27.36 281.59875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(27.36 286.41625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-5c1" d="M 2494 2581 
 L 450 2581 
@@ -2288,7 +2288,7 @@ z
    </g>
    <g id="text_48">
     <!-- response normalization has no parameters — which is exactly why Table 2 cannot -->
-    <g style="fill: #5b6762" transform="translate(27.36 293.83875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(27.36 301.53625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-400" d="M 394 0 
 L 3141 0 
@@ -2395,7 +2395,7 @@ z
    </g>
    <g id="text_49">
     <!-- show what it costs. The bar is the convolutional stack's share: it grows from 6.9% -->
-    <g style="fill: #5b6762" transform="translate(27.36 306.07875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(27.36 316.65625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-5ce" d="M 725 2884 
 L 1194 2884 
@@ -2504,7 +2504,7 @@ z
    </g>
    <g id="text_50">
     <!-- to 13.9% across the table while doing over 99% of the arithmetic. -->
-    <g style="fill: #5b6762" transform="translate(27.36 318.31875) scale(0.09 -0.09)">
+    <g style="fill: #5b6762" transform="translate(27.36 331.77625) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-37b"/>
      <use xlink:href="#Inter-Regular-318" transform="translate(31.75 0)"/>
      <use xlink:href="#Inter-Regular-6eb" transform="translate(91.71875 0)"/>
@@ -2575,8 +2575,8 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pe5b329cf48">
-   <rect x="0" y="0" width="648" height="339.84"/>
+  <clipPath id="p97edab28ce">
+   <rect x="0" y="0" width="648" height="352.8"/>
   </clipPath>
  </defs>
 </svg>

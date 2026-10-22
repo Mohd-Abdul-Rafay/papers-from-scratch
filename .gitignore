@@ -227,3 +227,6 @@ data/
 vgg/results/posteriors/
 vgg/results/labels.npy
 vgg/results/analysis.json
+
+# figures.py --png writes derived rasters here for sites that cannot serve SVG
+vgg/figures/png/

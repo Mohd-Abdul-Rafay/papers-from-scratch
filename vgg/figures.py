@@ -39,9 +39,19 @@ RESULTS = os.path.join(HERE, "results")
 FIGURES = os.path.join(HERE, "figures")
 
 WIDTH_IN = 9.0
-BODY = 9.0
-TITLE = 13.0
-LINE = 0.17
+
+# A page that cannot serve SVG gets PNG instead. 192 dpi is 1728 px across,
+# which covers a retina screen showing the sheet at 840 CSS px (1680 device
+# px) with nothing to spare and nothing wasted. Exporting at 384 instead was
+# measured against it at that size and changed the rendered text by nothing
+# worth having -- edge energy 2.668 against 2.694 -- because the pixels were
+# never the limit. Type size was.
+PNG_DPI = 192
+WRITE_PNG = False
+
+BODY = 11.0
+TITLE = 15.5
+LINE = 0.21
 MARGIN = 0.38
 
 LIGHT = dict(bg="#FBF9F4", ink="#0F172A", muted="#5B6762", rule="#D9D3C4",
@@ -129,18 +139,47 @@ class Sheet:
                     hits.append((s1, s2))
         return hits
 
+    def overruns(self):
+        """Text that runs past the sheet's own margins.
+
+        collisions() only sees labels hitting each other. A note line that is
+        simply too long for the sheet hits nothing and runs off the right
+        edge, where the SVG keeps it and no check notices. Type size is what
+        makes this a live risk: the lines were written to fit at one size and
+        nothing re-measures them at another.
+        """
+        self.fig.canvas.draw()
+        r = self.fig.canvas.get_renderer()
+        dpi = self.fig.dpi
+        out = []
+        for t in self.ax.texts:
+            if not t.get_text().strip():
+                continue
+            b = t.get_window_extent(r)
+            left, right = b.x0 / dpi, b.x1 / dpi
+            if left < MARGIN - 0.02 or right > WIDTH_IN - MARGIN + 0.02:
+                out.append((t.get_text(), left, right))
+        return out
+
     def save(self, name):
         over = self.y > self.h - 0.15
         hits = self.collisions()
+        wide = self.overruns()
         suffix = "-dark" if self.p is DARK else ""
         path = os.path.join(FIGURES, f"{name}{suffix}.svg")
         self.fig.savefig(path, format="svg")        # never bbox_inches: it rescales
+        if WRITE_PNG and self.p is LIGHT:
+            self.fig.savefig(os.path.join(FIGURES, "png", f"{name}.png"),
+                             format="png", dpi=PNG_DPI)
         plt.close(self.fig)
         for s1, s2 in hits:
             print(f"   !! {name}{suffix}: text overlaps — {s1!r} / {s2!r}")
+        for s, left, right in wide:
+            print(f"   !! {name}{suffix}: runs past the margin "
+                  f"({left:.2f}–{right:.2f} of {MARGIN}–{WIDTH_IN - MARGIN}) — {s[:60]!r}")
         if over:
             print(f"   !! {name}{suffix}: content ends at {self.y:.2f} of {self.h:.2f} in")
-        return not over and not hits
+        return not over and not hits and not wide
 
 
 def load(name):
@@ -150,9 +189,11 @@ def load(name):
 # ========================================================== 1. configurations
 def fig_configs(pal):
     a = load("architecture")["table_1_2"]
-    # 9.0 x 4.72 in is 1.905:1, the same frame a 1200x630 card uses, so a
-    # site that crops this figure to a card crops nothing off it.
-    s = Sheet(4.72, pal)
+    # Taller than the 1.905:1 of a 1200x630 card, but only by 0.18 in, and a
+    # cover-crop anchored 24% from the top takes 0.13 in off the bottom --
+    # less than the blank the note leaves there. Checked by rendering the
+    # crop, not by trusting the arithmetic.
+    s = Sheet(4.90, pal)
     s.head("01", "TABLE 1 AND TABLE 2, VERIFIED",
            "Depth is the only variable",
            "every configuration shares one kernel, one stride, one padding rule and five pools")
@@ -198,7 +239,7 @@ def fig_configs(pal):
 # ========================================================== 2. cost
 def fig_cost(pal):
     c = load("cost")
-    s = Sheet(6.28, pal)
+    s = Sheet(6.40, pal)
     s.head("01", "WHAT TABLE 2 CANNOT SEE",
            "A-LRN costs 68% more time and two more gigabytes",
            "batch 32, forward + backward, one A100 · identical parameters, identical arithmetic")
@@ -278,7 +319,7 @@ def fig_cost(pal):
 def fig_init(pal):
     d = load("init_study")
     h, sd = d["heatmap"], d["signal_deficit"]
-    s = Sheet(6.92, pal)
+    s = Sheet(7.05, pal)
     s.head("01", "SECTION 3.1, MEASURED",
            "Only one initialisation trains configuration E at all",
            f"Imagenette, {h['epochs']} epochs, validation accuracy · chance is {h['chance_pct']}%")
@@ -356,7 +397,7 @@ def fig_init(pal):
 def fig_conversion(pal):
     a = load("architecture")
     c, sm = a["conversion"], a["score_map"]
-    s = Sheet(6.35, pal)
+    s = Sheet(6.45, pal)
     s.head("01", "SECTION 3.2",
            "One layer wanted 224. Rewrite it as a convolution and the number disappears",
            "the conversion moves no numbers — it only reshapes them")
@@ -425,7 +466,7 @@ def fig_conversion(pal):
 def fig_table5(pal):
     d = load("dense_eval")
     ms = d["multi_scale"]
-    s = Sheet(6.66, pal)
+    s = Sheet(6.80, pal)
     s.head("01", "TABLE 5, REPRODUCED",
            "The ordering reproduces, and so do the gaps",
            f"all 50,000 ILSVRC-2012 validation images · Q = {ms['Q']} · torchvision VGG-16")
@@ -504,7 +545,7 @@ def fig_table5(pal):
 # ========================================================== 6. levers
 def fig_levers(pal):
     d = load("dense_eval")
-    s = Sheet(7.13, pal)
+    s = Sheet(7.25, pal)
     s.head("01", "THE TWO LEVERS",
            "Test scale is worth about three times the protocol",
            "same model, same 50,000 images · top-1 improvement, in points")
@@ -585,9 +626,17 @@ FIGURES_ALL = {"configs": fig_configs, "cost": fig_cost, "init": fig_init,
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     ap.add_argument("--only", nargs="*", choices=sorted(FIGURES_ALL))
+    ap.add_argument("--png", action="store_true",
+                    help="also write figures/png/<name>.png at %d dpi, light palette only, "
+                         "for somewhere that cannot serve SVG" % PNG_DPI)
     args = ap.parse_args()
 
+    global WRITE_PNG
+    WRITE_PNG = args.png
+
     os.makedirs(FIGURES, exist_ok=True)
+    if args.png:
+        os.makedirs(os.path.join(FIGURES, "png"), exist_ok=True)
     plt.rcParams.update({"font.family": FAMILY, "font.size": BODY,
                          "svg.fonttype": "path"})   # text as paths: no font on the reader
     ok = True

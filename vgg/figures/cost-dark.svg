@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="648pt" height="452.16pt" viewBox="0 0 648 452.16" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="648pt" height="460.8pt" viewBox="0 0 648 460.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-10-22T12:19:49.283987</dc:date>
+    <dc:date>2026-10-22T19:47:12.988307</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -21,8 +21,8 @@
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 452.16 
-L 648 452.16 
+   <path d="M 0 460.8 
+L 648 460.8 
 L 648 0 
 L 0 0 
 z
@@ -30,53 +30,53 @@ z
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 0 452.16 
-L 648 452.16 
+    <path d="M 0 460.8 
+L 648 460.8 
 L 648 0 
 L 0 0 
 z
-" clip-path="url(#pb4a7f81a4e)" style="fill: #0d1117"/>
+" clip-path="url(#p98fcb73a3f)" style="fill: #0d1117"/>
    </g>
    <g id="line2d_1">
-    <path d="M 27.36 234 
-L 620.64 234 
-" clip-path="url(#pb4a7f81a4e)" style="fill: none; stroke: #30363d; stroke-width: 0.9; stroke-linecap: square"/>
+    <path d="M 27.36 242.64 
+L 620.64 242.64 
+" clip-path="url(#p98fcb73a3f)" style="fill: none; stroke: #30363d; stroke-width: 0.9; stroke-linecap: square"/>
    </g>
    <g id="patch_3">
-    <path d="M 154.8 316.8 
-L 279.177358 316.8 
-L 279.177358 307.44 
-L 154.8 307.44 
+    <path d="M 154.8 325.44 
+L 279.177358 325.44 
+L 279.177358 316.08 
+L 154.8 316.08 
 z
-" clip-path="url(#pb4a7f81a4e)" style="fill: #ff7b5a"/>
+" clip-path="url(#p98fcb73a3f)" style="fill: #ff7b5a"/>
    </g>
    <g id="patch_4">
-    <path d="M 154.8 336.6 
-L 298.8 336.6 
-L 298.8 327.24 
-L 154.8 327.24 
+    <path d="M 154.8 345.24 
+L 298.8 345.24 
+L 298.8 335.88 
+L 154.8 335.88 
 z
-" clip-path="url(#pb4a7f81a4e)" style="fill: #ff7b5a"/>
+" clip-path="url(#p98fcb73a3f)" style="fill: #ff7b5a"/>
    </g>
    <g id="patch_5">
-    <path d="M 154.8 356.4 
-L 204.913208 356.4 
-L 204.913208 347.04 
-L 154.8 347.04 
+    <path d="M 154.8 365.04 
+L 204.913208 365.04 
+L 204.913208 355.68 
+L 154.8 355.68 
 z
-" clip-path="url(#pb4a7f81a4e)" style="fill: #a78bfa"/>
+" clip-path="url(#p98fcb73a3f)" style="fill: #a78bfa"/>
    </g>
    <g id="patch_6">
-    <path d="M 154.8 376.2 
-L 216.384906 376.2 
-L 216.384906 366.84 
-L 154.8 366.84 
+    <path d="M 154.8 384.84 
+L 216.384906 384.84 
+L 216.384906 375.48 
+L 154.8 375.48 
 z
-" clip-path="url(#pb4a7f81a4e)" style="fill: #a78bfa"/>
+" clip-path="url(#p98fcb73a3f)" style="fill: #a78bfa"/>
    </g>
    <g id="text_1">
     <!-- 01  /  WHAT TABLE 2 CANNOT SEE -->
-    <g style="fill: #a78bfa" transform="translate(27.36 33.19875) scale(0.09 -0.09)">
+    <g style="fill: #a78bfa" transform="translate(27.36 35.13625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-53f" d="M 2156 -63 
 C 3338 -63 4022 816 4022 2325 
@@ -339,7 +339,7 @@ z
    </g>
    <g id="text_2">
     <!-- A-LRN costs 68% more time and two more gigabytes -->
-    <g style="fill: #e6edf3" transform="translate(27.36 53.99375) scale(0.13 -0.13)">
+    <g style="fill: #e6edf3" transform="translate(27.36 56.415625) scale(0.155 -0.155)">
      <defs>
       <path id="Inter-Bold-5c1" d="M 2556 2700 
 L 438 2700 
@@ -776,7 +776,7 @@ z
    </g>
    <g id="text_3">
     <!-- batch 32, forward + backward, one A100 · identical parameters, identical arithmetic -->
-    <g style="fill: #8b949e" transform="translate(27.36 69.19875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(27.36 71.13625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-243" d="M 2116 -75 
 C 2988 -75 3594 625 3594 1738 
@@ -1284,13 +1284,13 @@ z
    </g>
    <g id="text_4">
     <!-- A -->
-    <g style="fill: #8b949e" transform="translate(180.99 92.23875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(179.61 94.17625) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-2"/>
     </g>
    </g>
    <g id="text_5">
     <!-- A-LRN -->
-    <g style="fill: #8b949e" transform="translate(289.09125 92.23875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(282.93375 94.17625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-5c1" d="M 2494 2581 
 L 450 2581 
@@ -1356,7 +1356,7 @@ z
    </g>
    <g id="text_6">
     <!-- change -->
-    <g style="fill: #8b949e" transform="translate(429.200156 92.23875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(422.177969 94.17625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-293" d="M 1909 -1381 
 C 2759 -1381 3431 -994 3431 -91 
@@ -1393,7 +1393,7 @@ z
    </g>
    <g id="text_7">
     <!-- parameters -->
-    <g style="fill: #e6edf3" transform="translate(27.36 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(27.36 110.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-34d"/>
      <use xlink:href="#Inter-Regular-1fc" transform="translate(62.21875 0)"/>
      <use xlink:href="#Inter-Regular-356" transform="translate(118.375 0)"/>
@@ -1408,7 +1408,7 @@ z
    </g>
    <g id="text_8">
     <!-- 132,863,336 -->
-    <g style="fill: #e6edf3" transform="translate(134.545781 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(122.844844 110.561465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-549" d="M 1978 -63 
 C 2916 -63 3578 478 3578 1238 
@@ -1470,7 +1470,7 @@ z
    </g>
    <g id="text_9">
     <!-- 132,863,336 -->
-    <g style="fill: #e6edf3" transform="translate(264.145781 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(252.444844 110.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-540"/>
      <use xlink:href="#Inter-Regular-543" transform="translate(40.671875 0)"/>
      <use xlink:href="#Inter-Regular-541" transform="translate(102.4375 0)"/>
@@ -1486,7 +1486,7 @@ z
    </g>
    <g id="text_10">
     <!-- none -->
-    <g style="fill: #8b949e" transform="translate(439.522031 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(434.793594 110.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-307"/>
      <use xlink:href="#Inter-Regular-318" transform="translate(59.078125 0)"/>
      <use xlink:href="#Inter-Regular-307" transform="translate(119.046875 0)"/>
@@ -1495,7 +1495,7 @@ z
    </g>
    <g id="text_11">
     <!-- — what Table 2 reports -->
-    <g style="fill: #8b949e" transform="translate(475.2 109.833926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(475.2 110.561465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-5b8" d="M 6400 2247 
 L 0 2247 
@@ -1542,7 +1542,7 @@ z
    </g>
    <g id="text_12">
     <!-- mult-adds -->
-    <g style="fill: #e6edf3" transform="translate(27.36 129.633926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(27.36 130.361465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-395" d="M 1678 -44 
 C 2138 -44 2519 144 2747 653 
@@ -1580,7 +1580,7 @@ z
    </g>
    <g id="text_13">
     <!-- 7.61 G -->
-    <g style="fill: #e6edf3" transform="translate(162.378281 129.633926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(156.862344 130.361465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-548" d="M 625 0 
 L 1250 0 
@@ -1627,7 +1627,7 @@ z
    </g>
    <g id="text_14">
     <!-- 7.61 G -->
-    <g style="fill: #e6edf3" transform="translate(291.978281 129.633926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(286.462344 130.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-548"/>
      <use xlink:href="#Inter-Regular-5e0" transform="translate(44.09375 0)"/>
      <use xlink:href="#Inter-Regular-547" transform="translate(70.375 0)"/>
@@ -1638,7 +1638,7 @@ z
    </g>
    <g id="text_15">
     <!-- none -->
-    <g style="fill: #8b949e" transform="translate(439.522031 129.633926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(434.793594 130.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-307"/>
      <use xlink:href="#Inter-Regular-318" transform="translate(59.078125 0)"/>
      <use xlink:href="#Inter-Regular-307" transform="translate(119.046875 0)"/>
@@ -1647,7 +1647,7 @@ z
    </g>
    <g id="text_16">
     <!-- — what Table 2 reports -->
-    <g style="fill: #8b949e" transform="translate(475.2 129.633926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(475.2 130.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-5b8"/>
      <use xlink:href="#Inter-Regular-6eb" transform="translate(100 0)"/>
      <use xlink:href="#Inter-Regular-3da" transform="translate(128.125 0)"/>
@@ -1674,7 +1674,7 @@ z
    </g>
    <g id="text_17">
     <!-- step time -->
-    <g style="fill: #e6edf3" transform="translate(27.36 149.433926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(27.36 150.161465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-369"/>
      <use xlink:href="#Inter-Regular-37b" transform="translate(52.78125 0)"/>
      <use xlink:href="#Inter-Regular-267" transform="translate(84.53125 0)"/>
@@ -1688,7 +1688,7 @@ z
    </g>
    <g id="text_18">
     <!-- 27.45 ms -->
-    <g style="fill: #e6edf3" transform="translate(148.699688 149.433926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(140.144063 150.161465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-544" d="M 375 947 
 L 2566 947 
@@ -1743,7 +1743,7 @@ z
    </g>
    <g id="text_19">
     <!-- 46.02 ms -->
-    <g style="fill: #ff7b5a" transform="translate(275.270625 149.433926) scale(0.09 -0.09)">
+    <g style="fill: #ff7b5a" transform="translate(266.041875 150.161465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-544" d="M 316 828 
 L 2544 828 
@@ -1786,7 +1786,7 @@ z
    </g>
    <g id="text_20">
     <!-- +67.7% -->
-    <g style="fill: #ff7b5a" transform="translate(427.584375 149.433926) scale(0.09 -0.09)">
+    <g style="fill: #ff7b5a" transform="translate(420.203125 150.161465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-601" d="M 1775 700 
 L 2569 700 
@@ -1825,7 +1825,7 @@ z
    </g>
    <g id="text_21">
     <!-- peak memory -->
-    <g style="fill: #e6edf3" transform="translate(27.36 169.233926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(27.36 169.961465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-3e8" d="M 438 -1266 
 C 497 -1294 650 -1331 850 -1331 
@@ -1860,7 +1860,7 @@ z
    </g>
    <g id="text_22">
     <!-- 4,624 MB -->
-    <g style="fill: #e6edf3" transform="translate(146.032031 169.233926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(136.883594 169.961465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-125" d="M 563 0 
 L 1128 0 
@@ -1922,7 +1922,7 @@ z
    </g>
    <g id="text_23">
     <!-- 6,619 MB -->
-    <g style="fill: #ff7b5a" transform="translate(276.440625 169.233926) scale(0.09 -0.09)">
+    <g style="fill: #ff7b5a" transform="translate(267.471875 169.961465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-5df" d="M 372 -1234 
 L 1009 -1234 
@@ -1985,7 +1985,7 @@ z
    </g>
    <g id="text_24">
     <!-- +1,995 MB -->
-    <g style="fill: #ff7b5a" transform="translate(414.005625 169.233926) scale(0.09 -0.09)">
+    <g style="fill: #ff7b5a" transform="translate(403.606875 169.961465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-545" d="M 2075 -63 
 C 3097 -63 3797 609 3797 1547 
@@ -2020,7 +2020,7 @@ z
    </g>
    <g id="text_25">
     <!-- PyTorch expands LocalResponseNorm into 10 autograd operations. One full-size tensor at this batch is 392 MB, -->
-    <g style="fill: #8b949e" transform="translate(27.36 195.91875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(27.36 197.85625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-178" d="M 563 0 
 L 1156 0 
@@ -2218,7 +2218,7 @@ z
    </g>
    <g id="text_26">
     <!-- and the measured increase is 5.09x that — roughly five intermediates kept alive for the backward pass. -->
-    <g style="fill: #8b949e" transform="translate(27.36 208.15875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(27.36 212.97625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-3d6" d="M 1503 0 
 L 2094 0 
@@ -2339,7 +2339,7 @@ z
    </g>
    <g id="text_27">
     <!-- The authors used Caffe, which fused LRN into one kernel. This cost is this framework's, not theirs. -->
-    <g style="fill: #8b949e" transform="translate(27.36 220.39875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(27.36 228.09625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-49" d="M 2447 -63 
 C 3400 -63 4163 519 4325 1466 
@@ -2465,7 +2465,7 @@ z
    </g>
    <g id="text_28">
     <!-- 02  /  A MULTIPLY-ACCUMULATE IS NOT A MULTIPLY-ACCUMULATE -->
-    <g style="fill: #a78bfa" transform="translate(27.36 258.55875) scale(0.09 -0.09)">
+    <g style="fill: #a78bfa" transform="translate(27.36 269.13625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-1a9" d="M 2344 -66 
 C 3494 -66 4266 616 4266 1634 
@@ -2580,7 +2580,7 @@ z
    </g>
    <g id="text_29">
     <!-- The same arithmetic costs 2.5x more depending on where you add it -->
-    <g style="fill: #e6edf3" transform="translate(27.36 279.35375) scale(0.13 -0.13)">
+    <g style="fill: #e6edf3" transform="translate(27.36 290.415625) scale(0.155 -0.155)">
      <defs>
       <path id="Inter-Bold-29f" d="M 1338 2022 
 C 1338 2484 1616 2753 2016 2753 
@@ -2721,7 +2721,7 @@ z
    </g>
    <g id="text_30">
     <!-- marginal cost of each step up Table 1 -->
-    <g style="fill: #8b949e" transform="translate(27.36 294.55875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(27.36 305.13625) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-300"/>
      <use xlink:href="#Inter-Regular-1fc" transform="translate(87.59375 0)"/>
      <use xlink:href="#Inter-Regular-356" transform="translate(143.75 0)"/>
@@ -2763,7 +2763,7 @@ z
    </g>
    <g id="text_31">
     <!-- A to B -->
-    <g style="fill: #e6edf3" transform="translate(27.36 315.393926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(27.36 324.761465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-2"/>
      <use xlink:href="#Inter-Bold-6eb" transform="translate(74.65625 0)"/>
      <use xlink:href="#Inter-Bold-37b" transform="translate(98.34375 0)"/>
@@ -2774,7 +2774,7 @@ z
    </g>
    <g id="text_32">
     <!-- +3.70 GMACs -->
-    <g style="fill: #8b949e" transform="translate(85.092187 315.393926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(72.001563 324.761465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-601" d="M 1853 797 
 L 2381 797 
@@ -2807,7 +2807,7 @@ z
    </g>
    <g id="text_33">
     <!-- 4.12 ms/GMAC -->
-    <g style="fill: #e6edf3" transform="translate(286.377358 315.393926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(286.377358 324.761465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-8d" d="M 2484 -63 
 C 3653 -63 4494 678 4494 1900 
@@ -2842,7 +2842,7 @@ z
    </g>
    <g id="text_34">
     <!-- second conv in blocks 1–2 (224², 112²) -->
-    <g style="fill: #8b949e" transform="translate(410.4 315.393926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(410.4 324.761465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-5c2" d="M 3200 2581 
 L 0 2581 
@@ -2929,7 +2929,7 @@ z
    </g>
    <g id="text_35">
     <!-- B to C -->
-    <g style="fill: #e6edf3" transform="translate(27.36 335.193926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(27.36 344.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-41"/>
      <use xlink:href="#Inter-Bold-6eb" transform="translate(66.15625 0)"/>
      <use xlink:href="#Inter-Bold-37b" transform="translate(89.84375 0)"/>
@@ -2940,7 +2940,7 @@ z
    </g>
    <g id="text_36">
     <!-- +0.46 GMACs -->
-    <g style="fill: #8b949e" transform="translate(84.005156 335.193926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(70.672969 344.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-601"/>
      <use xlink:href="#Inter-Regular-53f" transform="translate(66.15625 0)"/>
      <use xlink:href="#Inter-Regular-5e0" transform="translate(126.71875 0)"/>
@@ -2956,7 +2956,7 @@ z
    </g>
    <g id="text_37">
     <!-- 4.77 ms/GMAC -->
-    <g style="fill: #e6edf3" transform="translate(306 335.193926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(306 344.561465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-544"/>
      <use xlink:href="#Inter-Bold-5e0" transform="translate(64.25 0)"/>
      <use xlink:href="#Inter-Bold-548" transform="translate(95.125 0)"/>
@@ -2973,7 +2973,7 @@ z
    </g>
    <g id="text_38">
     <!-- three 1 × 1 convs (56, 28, 14) -->
-    <g style="fill: #8b949e" transform="translate(410.4 335.193926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(410.4 344.561465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-603" d="M 3231 859 
 L 3594 1222 
@@ -3034,7 +3034,7 @@ z
    </g>
    <g id="text_39">
     <!-- C to D -->
-    <g style="fill: #e6edf3" transform="translate(27.36 354.993926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(27.36 364.361465) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Bold-54" d="M 2059 0 
 C 3475 0 4328 875 4328 2331 
@@ -3062,7 +3062,7 @@ z
    </g>
    <g id="text_40">
     <!-- +3.70 GMACs -->
-    <g style="fill: #8b949e" transform="translate(85.092187 354.993926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(72.001563 364.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-601"/>
      <use xlink:href="#Inter-Regular-543" transform="translate(65.03125 0)"/>
      <use xlink:href="#Inter-Regular-5e0" transform="translate(124.546875 0)"/>
@@ -3078,7 +3078,7 @@ z
    </g>
    <g id="text_41">
     <!-- 1.66 ms/GMAC -->
-    <g style="fill: #e6edf3" transform="translate(212.113208 354.993926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(212.113208 364.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-540"/>
      <use xlink:href="#Inter-Bold-5e0" transform="translate(43.109375 0)"/>
      <use xlink:href="#Inter-Bold-547" transform="translate(73.59375 0)"/>
@@ -3095,7 +3095,7 @@ z
    </g>
    <g id="text_42">
     <!-- the same three, now 3 × 3 -->
-    <g style="fill: #8b949e" transform="translate(410.4 354.993926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(410.4 364.361465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-37b"/>
      <use xlink:href="#Inter-Regular-29f" transform="translate(32.71875 0)"/>
      <use xlink:href="#Inter-Regular-267" transform="translate(91.84375 0)"/>
@@ -3125,7 +3125,7 @@ z
    </g>
    <g id="text_43">
     <!-- D to E -->
-    <g style="fill: #e6edf3" transform="translate(27.36 374.793926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(27.36 384.161465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-54"/>
      <use xlink:href="#Inter-Bold-6eb" transform="translate(72.21875 0)"/>
      <use xlink:href="#Inter-Bold-37b" transform="translate(95.90625 0)"/>
@@ -3136,7 +3136,7 @@ z
    </g>
    <g id="text_44">
     <!-- +4.16 GMACs -->
-    <g style="fill: #8b949e" transform="translate(86.876719 374.793926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(74.182656 384.161465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-601"/>
      <use xlink:href="#Inter-Regular-544" transform="translate(66.15625 0)"/>
      <use xlink:href="#Inter-Regular-5e0" transform="translate(127.375 0)"/>
@@ -3152,7 +3152,7 @@ z
    </g>
    <g id="text_45">
     <!-- 2.04 ms/GMAC -->
-    <g style="fill: #e6edf3" transform="translate(223.584906 374.793926) scale(0.09 -0.09)">
+    <g style="fill: #e6edf3" transform="translate(223.584906 384.161465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Bold-541"/>
      <use xlink:href="#Inter-Bold-5e0" transform="translate(62.984375 0)"/>
      <use xlink:href="#Inter-Bold-53f" transform="translate(93.46875 0)"/>
@@ -3169,7 +3169,7 @@ z
    </g>
    <g id="text_46">
     <!-- fourth conv in blocks 3–5 -->
-    <g style="fill: #8b949e" transform="translate(410.4 374.793926) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(410.4 384.161465) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-288"/>
      <use xlink:href="#Inter-Regular-318" transform="translate(34.09375 0)"/>
      <use xlink:href="#Inter-Regular-395" transform="translate(94.0625 0)"/>
@@ -3199,7 +3199,7 @@ z
    </g>
    <g id="text_47">
     <!-- C to D adds exactly the same 3.70 GMACs as A to B and costs 2.5x less per GMAC: it is added late, on small maps. -->
-    <g style="fill: #8b949e" transform="translate(27.36 401.11875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(27.36 411.69625) scale(0.11 -0.11)">
      <defs>
       <path id="Inter-Regular-54" d="M 2016 0 
 C 3434 0 4238 881 4238 2338 
@@ -3346,7 +3346,7 @@ z
    </g>
    <g id="text_48">
     <!-- And C's 1 x 1 convolutions are the worst value in the table — a 3 x 3 kernel does nine multiply-accumulates for -->
-    <g style="fill: #8b949e" transform="translate(27.36 413.35875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(27.36 426.81625) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-2"/>
      <use xlink:href="#Inter-Regular-307" transform="translate(69 0)"/>
      <use xlink:href="#Inter-Regular-256" transform="translate(128.078125 0)"/>
@@ -3462,7 +3462,7 @@ z
    </g>
    <g id="text_49">
     <!-- every weight it loads, a 1 x 1 does one. GMAC count alone does not predict time. -->
-    <g style="fill: #8b949e" transform="translate(27.36 425.59875) scale(0.09 -0.09)">
+    <g style="fill: #8b949e" transform="translate(27.36 441.93625) scale(0.11 -0.11)">
      <use xlink:href="#Inter-Regular-267"/>
      <use xlink:href="#Inter-Regular-3d6" transform="translate(56.34375 0)"/>
      <use xlink:href="#Inter-Regular-267" transform="translate(110.59375 0)"/>
@@ -3548,8 +3548,8 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="pb4a7f81a4e">
-   <rect x="0" y="0" width="648" height="452.16"/>
+  <clipPath id="p98fcb73a3f">
+   <rect x="0" y="0" width="648" height="460.8"/>
   </clipPath>
  </defs>
 </svg>
