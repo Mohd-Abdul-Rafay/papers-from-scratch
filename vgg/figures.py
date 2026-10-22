@@ -103,15 +103,44 @@ class Sheet:
     def box(self, x, w, h, **kw):
         self.ax.add_patch(Rectangle((x, self._yy(self.y + h)), w, h, **kw))
 
+    def collisions(self):
+        """Pairs of text objects whose drawn boxes overlap.
+
+        The vertical cursor keeps rows apart, but nothing keeps a column
+        header from being wider than the gap to the column on its left: a
+        right-aligned label simply extends leftwards until it runs over its
+        neighbour. That is invisible in the code and obvious on the page —
+        exactly the kind of thing worth asserting rather than eyeballing.
+        """
+        self.fig.canvas.draw()
+        r = self.fig.canvas.get_renderer()
+        boxes = [(t.get_text(), t.get_window_extent(r)) for t in self.ax.texts
+                 if t.get_text().strip()]
+        hits = []
+        for i, (s1, b1) in enumerate(boxes):
+            for s2, b2 in boxes[i + 1:]:
+                ix = min(b1.x1, b2.x1) - max(b1.x0, b2.x0)
+                iy = min(b1.y1, b2.y1) - max(b1.y0, b2.y0)
+                # Two stacked lines of a label graze each other by a point or
+                # two, because a text's box includes its ascender and
+                # descender. A real collision is two things on the SAME line:
+                # they share most of their height as well as some width.
+                if ix > 1.0 and iy > 0.4 * min(b1.height, b2.height):
+                    hits.append((s1, s2))
+        return hits
+
     def save(self, name):
         over = self.y > self.h - 0.15
+        hits = self.collisions()
         suffix = "-dark" if self.p is DARK else ""
         path = os.path.join(FIGURES, f"{name}{suffix}.svg")
         self.fig.savefig(path, format="svg")        # never bbox_inches: it rescales
         plt.close(self.fig)
+        for s1, s2 in hits:
+            print(f"   !! {name}{suffix}: text overlaps — {s1!r} / {s2!r}")
         if over:
             print(f"   !! {name}{suffix}: content ends at {self.y:.2f} of {self.h:.2f} in")
-        return not over
+        return not over and not hits
 
 
 def load(name):
@@ -121,13 +150,17 @@ def load(name):
 # ========================================================== 1. configurations
 def fig_configs(pal):
     a = load("architecture")["table_1_2"]
-    s = Sheet(4.15, pal)
+    # 9.0 x 4.72 in is 1.905:1, the same frame a 1200x630 card uses, so a
+    # site that crops this figure to a card crops nothing off it.
+    s = Sheet(4.72, pal)
     s.head("01", "TABLE 1 AND TABLE 2, VERIFIED",
            "Depth is the only variable",
            "every configuration shares one kernel, one stride, one padding rule and five pools")
 
     s.y += 0.10
-    cols = [(s.L, "config", "left"), (1.35, "weight layers", "right"),
+    # 1.90, not 1.35: "weight layers" is wider than the gap to "config" and
+    # a right-aligned label grows leftwards into its neighbour.
+    cols = [(s.L, "config", "left"), (1.90, "weight layers", "right"),
             (3.00, "parameters", "right"), (4.45, "paper", "right"),
             (6.00, "conv params", "right"), (7.60, "conv share", "right")]
     for x, t, ha in cols:
@@ -138,7 +171,7 @@ def fig_configs(pal):
         v = a[name]
         ok = v["matches_table_2"]
         s.text(s.L, name, weight="bold", va="center", y=s.y + 0.06)
-        s.text(1.35, str(v["weight_layers"]), ha="right", va="center", y=s.y + 0.06)
+        s.text(1.90, str(v["weight_layers"]), ha="right", va="center", y=s.y + 0.06)
         s.text(3.00, f"{v['params_total']:,}", ha="right", va="center",
                colour=pal["good"] if ok else pal["warn"], weight="bold", y=s.y + 0.06)
         s.text(4.45, f"{v['params_paper_millions']} M", ha="right", va="center",
@@ -149,7 +182,7 @@ def fig_configs(pal):
                colour=pal["muted"], y=s.y + 0.06)
         s.box(7.80, share / 100 * 0.80, 0.11,
               facecolor=pal["accent"], edgecolor="none")
-        s.y += 0.265
+        s.y += 0.35
 
     s.y += 0.10
     s.note([
