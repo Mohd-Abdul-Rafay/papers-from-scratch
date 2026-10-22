@@ -221,6 +221,9 @@ def main():
     ap.add_argument("--scales", type=int, nargs="+", default=[256, 384, 512])
     ap.add_argument("--protocols", nargs="+", default=["crop", "dense", "multicrop"])
     ap.add_argument("--cache-dir", default=".")
+    ap.add_argument("--results", default=os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "results"),
+        help="where to write posteriors and labels for analysis.py")
     args = ap.parse_args()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -253,6 +256,17 @@ def main():
 
     if "dense" in P and "multicrop" in P:
         P["multicrop & dense"] = (P["multicrop"] + P["dense"]) / 2
+
+    # hand the per-image posteriors to analysis.py, which does the statistics.
+    # An aggregate error rate cannot tell you whether two protocols disagree on
+    # 200 images or on none, and that distinction is the whole of Table 5.
+    post_dir = os.path.join(args.results, "posteriors")
+    os.makedirs(post_dir, exist_ok=True)
+    np.save(os.path.join(args.results, "labels.npy"), labels)
+    for name, p in P.items():
+        np.save(os.path.join(post_dir, name.replace(" & ", "_and_") + ".npy"), p)
+    print(f"\nposteriors written to {post_dir} — "
+          f"run analysis.py on them for the paired tests")
 
     print(f"\nQ = {args.scales}\n")
     ranks = {}

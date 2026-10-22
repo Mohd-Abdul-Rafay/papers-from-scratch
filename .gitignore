@@ -222,3 +222,8 @@ data/
 
 # macOS
 .DS_Store
+
+# per-run analysis artifacts (the committed results/*.json are the measured ones)
+vgg/results/posteriors/
+vgg/results/labels.npy
+vgg/results/analysis.json

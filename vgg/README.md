@@ -3,149 +3,144 @@
 [Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/abs/1409.1556) —
 Karen Simonyan, Andrew Zisserman, ICLR 2015.
 
-Two files:
+Six architectures checked against the paper's own tables, and the paper's
+test-time procedure re-run on the paper's own validation set — 50,000 ILSVRC-2012
+images, with the comparisons written down before the numbers were looked at.
 
-| File | What it does |
-|---|---|
-| [`vgg.py`](vgg.py) | All six Table 1 configurations, checked against Table 2; the Section 3.2 FC-to-convolutional conversion, checked against the original network |
-| [`dense_eval.py`](dense_eval.py) | Sections 3.2 / 4.2 / 4.3 on the ILSVRC-2012 validation set: dense, multi-crop, their combination, across test scales |
+**What this is not:** a retraining of VGG. The architectures here are built from
+scratch and verified; the weights used for the evaluation study are
+torchvision's. [What was and was not reproduced](#what-was-and-was-not-reproduced)
+is set out below rather than left for a reader to work out.
 
-```bash
-python vgg.py                                      # architecture checks, no data needed
-python dense_eval.py --data /path/to/imagenet/val  # the evaluation study
-```
+---
 
-## Architecture
+## Depth is the only variable
 
-Depth is the only variable. All six configurations share one receptive field
-(3×3), one stride (1), one padding rule, the same five max-pool stages and the
-same three fully-connected layers. That is the whole design: hold everything
-constant, vary depth, and the error difference can be attributed to depth.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/configs-dark.svg">
+  <img src="figures/configs.svg" alt="The six Table 1 configurations with parameter counts checked against Table 2">
+</picture>
 
-| Config | Weight layers | Parameters |
-|---|---:|---:|
-| A | 11 | 132,863,336 |
-| A-LRN | 11 | 132,863,336 |
-| B | 13 | 133,047,848 |
-| C | 16 | 133,638,952 |
-| D | 16 | 138,357,544 |
-| E | 19 | 143,667,240 |
+All six configurations share one receptive field (3×3), one stride, one padding
+rule, five max-pool stages and three fully-connected layers. That is the whole
+design: hold everything constant, vary depth, and the error difference can be
+attributed to depth.
 
-A and A-LRN are the same size because local response normalisation has no
-parameters. A-LRN is a control, not a model — §4.1 finds it does not improve on
-A, and it is dropped from B onward.
+All six parameter counts match Table 2 exactly. A and A-LRN are identical because
+local response normalization has no parameters — which is also why Table 2 cannot
+show what it costs.
 
 ### Why 3×3 stacks
 
-Three stacked 3×3 layers see the same 7×7 receptive field as one 7×7 layer, but
-over C channels they cost 27C² weights against 49C² — the single layer is 81%
-more expensive. The stack also applies three non-linearities instead of one.
+Three stacked 3×3 layers see the same 7×7 receptive field as one 7×7 layer but
+cost 27C² weights against 49C² — the single layer is 81% more expensive. The
+stack also applies three non-linearities instead of one.
 
-That second point is doing all the work, and it is easy to read past.
-Convolution is linear, so **two stacked 3×3 convolutions with no activation
-between them collapse exactly into one 5×5 convolution** — same function, same
-output, provably. The depth argument is an argument about the ReLUs, not about
-the kernels. Remove them and the stack is not deep, it is just a more awkward
-way of writing a wider kernel.
+That second point is doing all the work and it is easy to read past.
+**Convolution is linear, so two stacked 3×3 convolutions with no activation
+between them collapse exactly into one 5×5 convolution.** The depth argument is
+an argument about the ReLUs, not about the kernels. Remove them and the stack is
+not deep, it is a more awkward way of writing a wider kernel.
 
-### The parameter/compute inversion
+---
 
-For configuration D:
+## What Table 2 cannot see
 
-```
-CONV     14,714,688 params (10.6%)   15,346,630,656 mult-adds (99.2%)
-FC      123,642,856 params (89.4%)      123,633,664 mult-adds ( 0.8%)
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/cost-dark.svg">
+  <img src="figures/cost.svg" alt="A-LRN costs 68% more time and 2 GB more memory than A; and the marginal cost per GMAC of each step up Table 1">
+</picture>
 
-A convolutional weight is reused at every spatial position; a fully-connected
-weight is used once. So the conv stack does essentially all the arithmetic while
-holding a tenth of the weights, and the FC layers hold nine tenths of the
-weights while doing under one percent of the work. The FC layers are where the
-memory goes; the conv stack is where the time goes.
+Table 2 quantifies cost as parameters, and by that measure some things are free
+that are not. The paper's only remark on what LRN costs is that it "leads to
+increased memory consumption and computation time" (§4.1), with no figure
+attached. Measured: **68% more time and two more gigabytes**, for a layer that
+changes neither the parameter count nor the arithmetic.
 
-The FC parameter and mult-add counts differ by exactly 9,192 — the biases.
+PyTorch expands `LocalResponseNorm` into ten autograd operations, about five of
+which keep a full-size intermediate alive for the backward pass. The authors used
+Caffe, which fused it — so this cost is this framework's, not theirs.
 
-### Dense evaluation (§3.2)
+The second panel is the more generally useful one. **A multiply-accumulate is not
+a multiply-accumulate.** Going C→D adds exactly the same 3.70 GMACs as A→B and
+costs 2.5× less per GMAC, because it is added late on small maps rather than
+early on large ones. And C's 1×1 convolutions are the worst value in the table: a
+3×3 kernel does nine multiply-accumulates for every weight it loads, a 1×1 does
+one.
 
-Only one thing in VGG ever required a 224×224 input: the first fully-connected
-layer, which demands exactly 7·7·512 = 25,088 numbers. The convolutions never
-cared about input size at all.
+### One more, which is a lesson about measurement
 
-So §3.2 removes that one constraint. A `Linear(25088, 4096)` holds its 102.7
-million weights in the same order as a `Conv2d(512, 4096, kernel_size=7)` — the
-conversion reshapes, it does not retrain. Once it is a convolution it can slide,
-and a larger input produces a **class score map** instead of one prediction. The
-map is averaged to a fixed-size score vector.
+`nn.ReLU(inplace=True)` was predicted to save ~784 MB. Measured at the global
+peak: **0.0 MB.** Measured at the *forward* peak: **392 MB.**
 
-Because the network's stride is 32, each score-map position corresponds to a
-224×224 window of the input offset 32 pixels from the last. Dense evaluation is
-therefore multi-crop at every 32-pixel offset — for the cost of a single pass,
-since the convolutional work underneath is shared.
+Both numbers are right. The saving is real and it is in the forward pass; it is
+invisible in the global peak because that peak is set during backward, when the
+stored activations are being consumed anyway. Report only the global peak and you
+report zero for an effect of several hundred megabytes.
 
-```
-       input     score map    positions
-  224 x 224       1 x 1               1     identical to the original network
-  256 x 256       2 x 2               4
-  384 x 384       6 x 6              36
-  512 x 512      10 x 10            100
-  256 x 341       2 x 4               8     real images are not square
-```
+---
 
-## Verification
+## Section 3.1 — why the deep nets needed pre-initialisation
 
-`python vgg.py` output, unedited:
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/init-dark.svg">
+  <img src="figures/init.svg" alt="Configuration E across four initialisations and five learning rates, and the compounding signal deficit">
+</picture>
 
-```
-Table 1 configurations against Table 2
+Read once, the paper's pre-initialisation procedure looks like an engineering
+workaround. Run it and it is the difference between a network that learns and one
+that does not.
 
-A  —  11 weight layers, Table 1 says 11   5 pools
-  conv     9,220,480  ( 6.9%)
-  fc     123,642,856  (93.1%)
-  total  132,863,336   Table 2: 132,863,336   exact
+Of twenty cells, **two train**. Only Kaiming, and only at the two lowest rates.
+Its usable window has two different edges — at 1e-2 the network settles at chance
+and from 3e-2 upward it diverges — so depth narrows the window from both sides at
+once.
 
-A-LRN  —  11 weight layers, Table 1 says 11   5 pools
-  conv     9,220,480  ( 6.9%)
-  fc     123,642,856  (93.1%)
-  total  132,863,336   Table 2: 132,863,336   exact
+Glorot supplies half Kaiming's variance per layer, so the shortfall in standard
+deviation compounds as a power of the depth: survivable over 8 layers, not over
+16. The paper's transplant removes four bad layers, and four is enough.
 
-B  —  13 weight layers, Table 1 says 13   5 pools
-  conv     9,404,992  ( 7.1%)
-  fc     123,642,856  (92.9%)
-  total  133,047,848   Table 2: 133,047,848   exact
+**One part could not be reproduced.** The paper trains its donor A with its own
+random initialisation. That initialisation does not train configuration A here
+either, at any rate tried, so the paper's donor does not exist to copy from. The
+donor used is Kaiming-trained, which makes this a test of whether a trained A
+rescues E — not a test of the paper's method end to end. The deficit bars are
+*modelled*; one has been checked against a measurement and the model understates
+it six-fold, so read that axis as an ordering, not a quantity.
 
-C  —  16 weight layers, Table 1 says 16   5 pools
-  conv     9,996,096  ( 7.5%)
-  fc     123,642,856  (92.5%)
-  total  133,638,952   Table 2: 133,638,952   exact
+---
 
-D  —  16 weight layers, Table 1 says 16   5 pools
-  conv    14,714,688  (10.6%)
-  fc     123,642,856  (89.4%)
-  total  138,357,544   Table 2: 138,357,544   exact
+## Section 3.2 — the one layer that ever needed 224
 
-E  —  19 weight layers, Table 1 says 19   5 pools
-  conv    20,024,384  (13.9%)
-  fc     123,642,856  (86.1%)
-  total  143,667,240   Table 2: 143,667,240   exact
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/conversion-dark.svg">
+  <img src="figures/conversion.svg" alt="The Linear and Conv2d weights hold identical values, and the score map grows with the input">
+</picture>
 
-A and A-LRN identical in size: True   LRN carries no parameters
-FC-to-conv agrees at 224:     1.863e-08   float32 round-off, not an approximation
-conversion preserves count:   True
+Every description of VGG begins by saying it takes a 224×224 input. Only one
+layer in it ever required that. The convolutions never cared — they slide. The
+constraint is the first fully-connected layer, which demands exactly
+7·7·512 = 25,088 numbers.
 
-       input     score map     predicted   positions
-  224 x 224       1 x 1         1 x 1              1
-  256 x 256       2 x 2         2 x 2              4
-  384 x 384       6 x 6         6 x 6             36
-  512 x 512      10 x 10       10 x 10           100
-  256 x 341       2 x 4         2 x 4              8
+A `Linear(25088, 4096)` and a `Conv2d(512, 4096, kernel_size=7)` hold the same
+102,760,448 weights in the same order. The conversion reshapes; it does not
+retrain, and the two networks agree to **1.4 × 10⁻⁶** — one or two units in the
+last place of float32.
 
-all checks passed
-```
+Once it is a convolution it can slide, and a larger input yields a **class score
+map** instead of one prediction. The network's stride is 32, so each score-map
+position is a 224×224 window offset 32 pixels from the last: dense evaluation is
+multi-crop at every 32-pixel offset, for the cost of one pass, because the
+convolutional work underneath is shared.
 
-### The evaluation study
+---
 
-`dense_eval.py` on all 50,000 ILSVRC-2012 validation images, using torchvision's
-pretrained VGG-16 (configuration D), Q = {256, 384, 512}:
+## Table 5, reproduced
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/table5-dark.svg">
+  <img src="figures/table5.svg" alt="The three protocols measured against the paper's Table 5, and the same tests at two sample sizes">
+</picture>
 
 | Protocol | top-1 | top-5 | Paper, Table 5 |
 |---|---:|---:|---|
@@ -153,49 +148,161 @@ pretrained VGG-16 (configuration D), Q = {256, 384, 512}:
 | multi-crop | 25.100% | 7.676% | 24.6 / 7.5 |
 | multi-crop & dense | **24.812%** | **7.420%** | 24.4 / 7.2 |
 
-The ordering reproduces. So do the gaps: dense to the combination is 0.430 here
+The ordering reproduces. So do the gaps — dense to the combination is 0.430 here
 against the paper's 0.4.
 
-Pre-registered McNemar tests, six comparisons, Bonferroni threshold 0.0083:
+The ~0.45 point offset is the **weights**, not the protocol: torchvision trained
+these with `RandomResizedCrop` rather than the paper's scale jittering. The
+evidence is that the offset barely moves across three protocols (0.442, 0.500,
+0.412), which makes evaluation protocol and weight quality additive rather than
+interacting.
 
-| Comparison | p | Verdict |
+Six comparisons, declared before the numbers were seen, Bonferroni threshold
+0.0083:
+
+| Comparison | p | |
 |---|---:|---|
 | top-1 dense vs multi-crop | 0.1448 | not distinguishable |
 | top-5 dense vs multi-crop | 0.2464 | not distinguishable |
 | top-1 dense vs combination | 0.0000 | **combination better** |
 | top-5 dense vs combination | 0.0000 | **combination better** |
 | top-1 multi-crop vs combination | 0.0000 | **combination better** |
-| top-5 multi-crop vs combination | 0.0000 | **combination better** |
+| top-5 multi-crop vs combination | 0.0002 | **combination better** |
 
-The paper's headline claim — that the two are complementary and their
-combination beats each alone — holds on both metrics. That dense and multi-crop
-cannot be told apart is also consistent with the paper, whose own top-5 figures
-for the two are identical at 7.5.
+The paper's headline claim holds on both metrics. That dense and multi-crop
+cannot be told apart is consistent with the paper's own figures, which give the
+two an identical 7.5 on top-5.
 
-The pipeline was checked against an external reference before any of this was
-run: centre-crop without flipping gives 28.418% top-1 error against the 28.408%
-torchvision reports for these weights, a gap of five images in fifty thousand.
+Before any of this, the pipeline was checked against an external reference:
+centre-crop without flipping gives **28.418%** top-1 against the **28.408%**
+torchvision publishes for these weights — five images in fifty thousand.
 
-### Three results not in the paper
+---
 
-**The protocol's benefit is nearly independent of the weights.** These weights
-are about half a point behind the paper's, and the offset barely moves across
-protocols — 0.442, 0.500, 0.412. Evaluation protocol and weight quality add
-rather than interact.
+## Which lever actually moves the number
 
-**The scale lever is about three times the protocol lever.** Averaging over
-Q = {256, 384, 512} instead of Q = 256 alone is worth 1.01–1.13 points of top-1
-(p = 0.0000 for both dense and multi-crop). Choosing multi-crop over dense is
-worth 0.14 points and is not significant. §4.3 and a table go to the smaller of
-the two.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/levers-dark.svg">
+  <img src="figures/levers.svg" alt="Test scale is worth about three times the evaluation protocol; and the rank migration showing where dense evaluation acts">
+</picture>
 
-**Dense evaluation improves the candidate list more than the top slot.** At a
-single scale, dense beats centre-crop clearly on top-5 (p = 0.0022) and not at
-all on top-1 (p = 0.72) — and of the images it pulls into the top five, 28 of 38
-land at ranks 2–5 rather than rank 1. Meanwhile it never pushed a correct answer
-out of the top five at all: of 3,347 images the centre crop ranked first, zero
-fell below rank 5 under dense. Averaging over windows dilutes a confident right
-answer; it does not destroy one.
+Section 4.3 and a table go to choosing multi-crop over dense. Measured, that
+choice is worth **0.142 points** and does not survive its own threshold.
+Averaging the same model over Q = {256, 384, 512} instead of Q = 256 alone is
+worth **1.01 to 1.13 points**, p = 0.0000 for both protocols.
+
+Both results are in the paper — Table 4 has the scale gain, Table 5 the protocol
+gain — but they sit in different tables with different baselines and nothing
+invites the reader to put them side by side. Doing so reverses which one looks
+important.
+
+The second panel says where dense evaluation acts. At a single scale it beats
+centre-cropping clearly on top-5 (p = 0.0022) and not at all on top-1 (p = 0.72),
+and of the 38 images it pulls into the top five, **28 land at ranks 2–5 rather
+than rank 1**. Meanwhile, of the 3,347 images the centre crop already ranked
+first, **none** fell below rank five. Averaging over windows dilutes a confident
+right answer; it does not destroy one.
+
+A plainer explanation competes with that one — images the centre crop ranks first
+are the easy ones, and easy images survive any window. The two were not separated.
+
+---
+
+## Why every comparison here is a paired test
+
+Dense evaluation and centre-cropping score 14.73% and 14.88% top-1 on the same
+3,925 images. A difference of 0.15 points, six images. It would be easy to
+explain, and the explanation would be fiction — the two protocols actually
+disagree on **196** images, with dense getting 95 right that cropping misses and
+cropping getting 101 right that dense misses. The aggregate hides both facts: that
+neither is better, and that they are very different predictors.
+
+Which is exactly why the paper can say they are *complementary* and that combining
+them beats each alone. The disagreement is the raw material of the combination.
+
+The same tests on a tenth of the data decide nothing, with identical code and
+weights:
+
+| Comparison, top-1 | 3,925 images | 50,000 images |
+|---|---|---|
+| centre-crop vs dense | 72 / 87, p = 0.27 | 1173 / 1823, **p = 0.0000** |
+| dense vs combination | 30 / 34, p = 0.71 | 413 / 612, **p = 0.0000** |
+| multi-crop vs combination | 27 / 36, p = 0.31 | 462 / 546, p = 0.0089 |
+
+The smaller set was not misleading, it was **silent** — 64 discordant pairs where
+about 130 were needed. The two look identical if only one of them is ever run.
+
+---
+
+## What was and was not reproduced
+
+**Reproduced**
+
+- Table 1 and Table 2: all six configurations, parameter counts exact
+- §3.2's FC-to-convolutional conversion, to float32 round-off
+- Score-map geometry, predicted from the formula then measured, seven cases
+- Table 5's ordering and gaps, on the paper's own validation set
+- Table 4's claim that scale jittering at test time helps
+- Table 5's implicit claim that dense and multi-crop are near-equivalent alone
+
+**Not reproduced**
+
+- **Training.** No network here was trained to convergence on ImageNet. The
+  evaluation study uses torchvision's pretrained configuration D.
+- **The paper's own initialisation.** It does not train configuration A here, so
+  the donor its pre-training procedure requires could not be produced.
+- **Table 4's Q = {S−32, S, S+32} finding.** torchvision's weights have no
+  training scale S to be near or far from.
+- **§4.4 ConvNet fusion** — ensembling several trained networks.
+
+**Measured here, not in the paper**
+
+- What A-LRN actually costs in time and memory
+- Milliseconds per GMAC for each step up Table 1
+- That the protocol's benefit is nearly independent of weight quality
+- That the scale lever is roughly three times the protocol lever
+- That dense evaluation improves the candidate list rather than the top slot, and
+  never pushes a correct answer out of the top five
+
+---
+
+## Running it
+
+```bash
+pip install -r ../requirements.txt
+
+python vgg.py                                  # architecture checks, no data, no GPU
+python figures.py                              # all figures, from results/, no GPU
+
+python cost.py                                 # needs a CUDA GPU
+python init_study.py  --data path/to/imagenette2
+python dense_eval.py  --data path/to/imagenet/val
+python analysis.py    --compare dense:multicrop dense:"multicrop_and_dense" \
+                      --ranks crop:dense
+```
+
+| File | What it does |
+|---|---|
+| [`vgg.py`](vgg.py) | The six configurations, the §3.2 conversion, and their checks |
+| [`cost.py`](cost.py) | LRN's cost, the in-place ReLU question, arithmetic intensity |
+| [`init_study.py`](init_study.py) | §3.1 on Imagenette: the initialisation grid and the transplant |
+| [`dense_eval.py`](dense_eval.py) | §3.2 / 4.2 / 4.3 on ILSVRC: dense, multi-crop, combination |
+| [`analysis.py`](analysis.py) | McNemar, rank migration, power — on saved posteriors |
+| [`figures.py`](figures.py) | Every figure, drawn from `results/`. Measures nothing. |
+| [`results/`](results/) | Every measured number, as JSON, with its provenance |
+| [`VGG.ipynb`](VGG.ipynb) | The study as a narrative, in the order it was worked out |
+
+**Measurement and presentation are separate on purpose.** The scripts write
+numbers to `results/`; `figures.py` only draws them. So the figures regenerate on
+a laptop without an A100 or ImageNet, and every number on a figure traces to a
+line in a JSON file rather than to something typed into a plotting script once and
+never checked again.
+
+`results/*.json` carries the figures measured on one NVIDIA A100-SXM4-80GB.
+Re-running the scripts overwrites them with yours. Absolute milliseconds are
+hardware; the ratios and the directions are the result.
+
+---
 
 ## Details most implementations get wrong
 
@@ -207,53 +314,38 @@ error, and silently turns dense evaluation back into single-crop evaluation.
 
 **Averaging in the wrong space.** The score map is averaged *before* the softmax,
 in logit space. The original and flipped images are averaged *after* it, in
-posterior space. The paper states both; they are different operations in
-different places and swapping them changes the answer quietly.
+posterior space. Across test scales, posteriors are averaged again. The paper
+states all three; they are different operations in different places.
 
-**Assuming `.view()` on the FC weight is safe.** `Linear(25088, 4096).weight.view(4096, 512, 7, 7)`
-is correct only because the flatten feeding that layer runs in C order over a
-(512, 7, 7) tensor. Under any other ordering the reshape still succeeds and
-scrambles the weights. `vgg.py` asserts the converted network reproduces the
-original instead of assuming it.
+**Assuming `.view()` on the FC weight is safe.** It is correct only because the
+flatten feeding that layer runs in C order over a (512, 7, 7) tensor. Under any
+other ordering the reshape still succeeds and scrambles the weights. `vgg.py`
+asserts the converted network reproduces the original rather than assuming it.
 
-**Normalising with the paper's statistics while using torchvision's weights.**
-The paper subtracts the mean only. torchvision's weights were trained with
-mean *and* standard deviation. Mixing them costs accuracy and raises nothing.
+**Normalising with the paper's statistics while using torchvision's weights.** The
+paper subtracts the mean only; torchvision's weights were trained with mean *and*
+standard deviation. `init_study.py` trains from scratch and follows the paper;
+`dense_eval.py` uses pretrained weights and follows torchvision. Mixing them costs
+accuracy and raises nothing.
 
-**Padding.** Every convolution uses `padding = k // 2`, so 3×3 gets 1 and the
-1×1 layers in configuration C get 0 from the same rule. Only the max-pools
-change spatial size, which is why 224 → 7 is exactly 2⁵.
+**Reaching for float16 without measuring what it costs.** Autocast changed the
+top-1 prediction of 53 images in 50,000 — 0.106%, the same size as the effects
+being measured — and was not measurably faster, because JPEG decoding and not the
+GPU was the bottleneck. The economy was buying nothing and would have cost the
+result.
 
-**Reading A-LRN's `alpha` off the paper directly.** PyTorch's
-`LocalResponseNorm` divides alpha by `size` internally and the paper's formula
-does not, so the paper's 1e-4 is passed as 5e-4.
+**Treating a 0.2-point difference as a finding.** See
+[the paired-test section](#why-every-comparison-here-is-a-paired-test).
 
-**Treating a 0.2-point difference as a result.** At 3,925 validation images
-none of the protocol comparisons here reach significance; at 50,000 almost all
-of them do. Worse, a small aggregate difference can hide a large number of real
-disagreements that cancel — dense and centre-crop differ on about 5% of images
-while scoring almost identically. `dense_eval.py` reports paired McNemar tests
-for this reason, and the comparisons are fixed before the numbers are seen.
+---
 
 ## Caveats
 
-* `dense_eval.py` evaluates **torchvision's** pretrained VGG-16, not weights
-  trained here. torchvision trained it with `RandomResizedCrop(224)` and
-  `--lr 1e-2` for 90 epochs, not with the paper's scale jittering over
-  S ∈ [256, 512], so there is no well-defined training scale S. That is why the
-  absolute errors sit about 0.45 points above the paper's, and why Table 4's
-  Q = {S−32, S, S+32} finding cannot be reproduced here — there is no S.
-
-* Training is not reproduced. The paper's own initialisation procedure,
-  pre-initialising the deeper nets from a trained configuration A, is not
-  implemented in these files.
-
-* §4.4 ConvNet fusion — ensembling several trained networks — is not
-  implemented.
-
-* `vgg.py` builds and checks the architectures; it does not train them. The
-  parameter counts assume 1,000 classes and the paper's 224×224 input.
-
 * The multi-crop grid uses `torch.linspace` over the available offsets, which
-  matches "5 × 5 regular grid" but is not pinned to a specific crop placement by
-  the paper. Different reasonable placements give slightly different numbers.
+  matches "5 × 5 regular grid" but is not pinned to a specific placement by the
+  paper. Different reasonable placements give slightly different numbers.
+* `init_study.py` runs on Imagenette — ten easily separated classes, five epochs.
+  It can settle which initialisations train a deep rectified network at all. It
+  cannot say what accuracy VGG reaches.
+* `vgg.py` builds and checks the architectures; it does not train them. The
+  parameter counts assume 1,000 classes and a 224×224 input.

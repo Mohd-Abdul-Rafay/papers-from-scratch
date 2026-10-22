@@ -1,0 +1,194 @@
+{
+ "_provenance": {
+  "produced_by": "vgg/vgg.py --json",
+  "needs": "nothing - architecture only, no data and no GPU",
+  "note": "Counts come from the built modules, not from arithmetic done by hand."
+ },
+ "table_1_2": {
+  "A": {
+   "weight_layers": 11,
+   "weight_layers_paper": 11,
+   "pools": 5,
+   "params_total": 132863336,
+   "params_conv": 9220480,
+   "params_fc": 123642856,
+   "params_paper_millions": 133,
+   "matches_table_2": true
+  },
+  "A-LRN": {
+   "weight_layers": 11,
+   "weight_layers_paper": 11,
+   "pools": 5,
+   "params_total": 132863336,
+   "params_conv": 9220480,
+   "params_fc": 123642856,
+   "params_paper_millions": 133,
+   "matches_table_2": true
+  },
+  "B": {
+   "weight_layers": 13,
+   "weight_layers_paper": 13,
+   "pools": 5,
+   "params_total": 133047848,
+   "params_conv": 9404992,
+   "params_fc": 123642856,
+   "params_paper_millions": 133,
+   "matches_table_2": true
+  },
+  "C": {
+   "weight_layers": 16,
+   "weight_layers_paper": 16,
+   "pools": 5,
+   "params_total": 133638952,
+   "params_conv": 9996096,
+   "params_fc": 123642856,
+   "params_paper_millions": 134,
+   "matches_table_2": true
+  },
+  "D": {
+   "weight_layers": 16,
+   "weight_layers_paper": 16,
+   "pools": 5,
+   "params_total": 138357544,
+   "params_conv": 14714688,
+   "params_fc": 123642856,
+   "params_paper_millions": 138,
+   "matches_table_2": true,
+   "macs_conv": 15346630656,
+   "macs_fc": 123633664
+  },
+  "E": {
+   "weight_layers": 19,
+   "weight_layers_paper": 19,
+   "pools": 5,
+   "params_total": 143667240,
+   "params_conv": 20024384,
+   "params_fc": 123642856,
+   "params_paper_millions": 144,
+   "matches_table_2": true
+  }
+ },
+ "conversion": {
+  "linear_weight_shape": [
+   4096,
+   25088
+  ],
+  "conv_weight_shape": [
+   4096,
+   512,
+   7,
+   7
+  ],
+  "values": 102760448,
+  "max_abs_difference_random_weights": 1.862645149230957e-08,
+  "max_abs_difference_pretrained": 1.430511474609375e-06,
+  "params_preserved": true
+ },
+ "score_map": [
+  {
+   "input": [
+    224,
+    224
+   ],
+   "map": [
+    1,
+    1
+   ],
+   "predicted": [
+    1,
+    1
+   ],
+   "positions": 1
+  },
+  {
+   "input": [
+    256,
+    256
+   ],
+   "map": [
+    2,
+    2
+   ],
+   "predicted": [
+    2,
+    2
+   ],
+   "positions": 4
+  },
+  {
+   "input": [
+    288,
+    288
+   ],
+   "map": [
+    3,
+    3
+   ],
+   "predicted": [
+    3,
+    3
+   ],
+   "positions": 9
+  },
+  {
+   "input": [
+    384,
+    384
+   ],
+   "map": [
+    6,
+    6
+   ],
+   "predicted": [
+    6,
+    6
+   ],
+   "positions": 36
+  },
+  {
+   "input": [
+    512,
+    512
+   ],
+   "map": [
+    10,
+    10
+   ],
+   "predicted": [
+    10,
+    10
+   ],
+   "positions": 100
+  },
+  {
+   "input": [
+    256,
+    341
+   ],
+   "map": [
+    2,
+    4
+   ],
+   "predicted": [
+    2,
+    4
+   ],
+   "positions": 8
+  },
+  {
+   "input": [
+    384,
+    512
+   ],
+   "map": [
+    6,
+    10
+   ],
+   "predicted": [
+    6,
+    10
+   ],
+   "positions": 60
+  }
+ ]
+}

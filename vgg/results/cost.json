@@ -1,0 +1,102 @@
+{
+ "_provenance": {
+  "produced_by": "vgg/cost.py",
+  "needs": "one CUDA GPU; these figures are from an NVIDIA A100-SXM4-80GB",
+  "method": "batch 32 at 224x224, forward + backward, median of 25 steps after warmup, torch.cuda.synchronize() on both sides of the clock, peak from torch.cuda.max_memory_allocated() after a reset",
+  "note": "Re-running on different hardware or a different PyTorch build will move these numbers. The directions and the ratios are the result; the absolute milliseconds are not.",
+  "framework": "PyTorch 2.x, float32"
+ },
+ "lrn": {
+  "what": "What configuration A-LRN costs over A. Table 2 gives them the same parameter count, which is correct and says nothing about what the layer costs.",
+  "A": {
+   "params": 132863336,
+   "gmacs": 7.61,
+   "step_ms": 27.45,
+   "peak_mb": 4624
+  },
+  "A_LRN": {
+   "params": 132863336,
+   "gmacs": 7.61,
+   "step_ms": 46.02,
+   "peak_mb": 6619
+  },
+  "delta": {
+   "params": 0,
+   "gmacs": 0.0,
+   "step_ms_pct": 67.7,
+   "peak_mb": 1995
+  },
+  "why": {
+   "autograd_ops_in_pytorch_lrn": 10,
+   "one_full_size_tensor_mb": 392,
+   "measured_increase_mb": 1995,
+   "ratio": 5.09,
+   "reading": "The LRN input at batch 32 is 32 x 64 x 224 x 224, which is 392 MB in float32. PyTorch expands LocalResponseNorm into ten operations; roughly five of them keep a full-size intermediate alive for the backward pass.",
+   "caveat": "The authors used Caffe, which had a fused LRN kernel. This cost is this framework's, not theirs, and cannot be projected backwards onto their machines."
+  },
+  "paper_says": "leads to increased memory consumption and computation time (section 4.1), with no figure attached"
+ },
+ "inplace_relu": {
+  "what": "Whether nn.ReLU(inplace=True) reduces peak memory for VGG training.",
+  "predicted_saving_mb": 784,
+  "measured": {
+   "inplace_false_peak_mb": 2084.7,
+   "inplace_true_peak_mb": 2084.7,
+   "saving_mb": 0.0
+  },
+  "forward_peak": {
+   "inplace_false_mb": 802.5,
+   "inplace_true_mb": 410.8,
+   "saving_mb": 391.7
+  },
+  "global_peak_set_by": "backward",
+  "global_peak_mb": 2080.7,
+  "reading": "The saving is real and it is in the forward pass. It is invisible in the global peak because the global peak is set during backward, when the stored activations are being consumed anyway. Measuring only the global peak reports zero and hides a 392 MB effect.",
+  "mechanism": "ReluBackward0 saves _saved_result, not _saved_self, so the backward pass reads the output rather than the input and the in-place rewrite is legal. That is why it works, and also why it buys nothing at the global peak."
+ },
+ "arithmetic_intensity": {
+  "what": "The marginal cost of each step up Table 1, in milliseconds per GMAC added. A MAC is not a MAC: where it sits decides what it costs.",
+  "steps": [
+   {
+    "step": "A to B",
+    "gmacs": 3.7,
+    "ms": 15.23,
+    "ms_per_gmac": 4.12,
+    "changed": "second conv in blocks 1\u20132 (224\u00b2, 112\u00b2)"
+   },
+   {
+    "step": "B to C",
+    "gmacs": 0.46,
+    "ms": 2.21,
+    "ms_per_gmac": 4.77,
+    "changed": "three 1 \u00d7 1 convs (56, 28, 14)"
+   },
+   {
+    "step": "C to D",
+    "gmacs": 3.7,
+    "ms": 6.12,
+    "ms_per_gmac": 1.66,
+    "changed": "the same three, now 3 \u00d7 3"
+   },
+   {
+    "step": "D to E",
+    "gmacs": 4.16,
+    "ms": 8.49,
+    "ms_per_gmac": 2.04,
+    "changed": "fourth conv in blocks 3\u20135"
+   }
+  ],
+  "two_effects": {
+   "kernel_shape": {
+    "reading": "C to D adds exactly the same 3.70 GMACs as A to B but costs 2.5x less per GMAC, because a 3 x 3 kernel does 9 multiply-accumulates for every weight it loads and a 1 x 1 does one. The 1 x 1 layers in C are the worst value per GMAC in the whole table.",
+    "one_by_one_ms_per_gmac": 4.77,
+    "three_by_three_ms_per_gmac": 1.66
+   },
+   "where_in_the_network": {
+    "early_224_112_64_128_channels": 4.12,
+    "late_56_28_14_256_512_channels": 1.66,
+    "reading": "Arithmetic added early, on large spatial maps with few channels, costs about 2.5x more per GMAC than the same arithmetic added late. GMAC count alone does not predict time."
+   }
+  }
+ }
+}
