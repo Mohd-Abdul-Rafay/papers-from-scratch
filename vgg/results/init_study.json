@@ -4,42 +4,146 @@
   "needs": "one CUDA GPU and Imagenette; these figures are from an NVIDIA A100-SXM4-80GB",
   "method": "Imagenette, 10 classes, ~9.5k training images. SGD, momentum 0.9, weight decay 5e-4, batch 32, 5 epochs. Images mean-subtracted only, as the paper specifies - no division by standard deviation.",
   "note": "This is NOT ILSVRC and five epochs is not seventy-four. The result is about which initialisations train at all on a deep rectified network, not about what accuracy VGG reaches.",
-  "framework": "PyTorch 2.x, float32"
+  "framework": "PyTorch 2.x, float32",
+  "recorded": "These values were recorded from the run described above, not written by the script on this machine. Running the script overwrites this file with your own measurements, in the same shape."
  },
-
  "heatmap": {
   "what": "Configuration E, validation accuracy after five epochs. Four initialisations against five learning rates. Chance is 10.0%.",
   "config": "E",
   "epochs": 5,
   "chance_pct": 10.0,
-  "learning_rates": [1e-3, 3e-3, 1e-2, 3e-2, 1e-1],
+  "learning_rates": [
+   0.001,
+   0.003,
+   0.01,
+   0.03,
+   0.1
+  ],
   "rows": [
-   {"init": "paper init (std 0.1)",  "note": "the paper's variance 1e-2 read literally",
-    "acc": [null, null, null, null, null], "nan": [true, true, true, true, true]},
-   {"init": "paper init (std 0.01)", "note": "the paper's std 0.01",
-    "acc": [9.1, 9.1, 9.1, 9.9, 9.9], "nan": [false, false, false, false, false]},
-   {"init": "Glorot",                "note": "half Kaiming's variance per layer",
-    "acc": [9.1, 9.1, 9.9, 9.9, 9.9], "nan": [false, false, false, false, false]},
-   {"init": "Kaiming",               "note": "variance 2 / fan_in",
-    "acc": [50.1, 48.7, 9.9, null, null], "nan": [false, false, false, true, true]}
+   {
+    "init": "paper init (std 0.1)",
+    "note": "the paper's variance 1e-2 read literally",
+    "acc": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "nan": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "init": "paper init (std 0.01)",
+    "note": "the paper's std 0.01",
+    "acc": [
+     9.1,
+     9.1,
+     9.1,
+     9.9,
+     9.9
+    ],
+    "nan": [
+     false,
+     false,
+     false,
+     false,
+     false
+    ]
+   },
+   {
+    "init": "Glorot",
+    "note": "half Kaiming's variance per layer",
+    "acc": [
+     9.1,
+     9.1,
+     9.9,
+     9.9,
+     9.9
+    ],
+    "nan": [
+     false,
+     false,
+     false,
+     false,
+     false
+    ]
+   },
+   {
+    "init": "Kaiming",
+    "note": "variance 2 / fan_in",
+    "acc": [
+     50.1,
+     48.7,
+     9.9,
+     null,
+     null
+    ],
+    "nan": [
+     false,
+     false,
+     false,
+     true,
+     true
+    ]
+   }
   ],
   "summary": {
-   "cells_that_train": 2, "cells_near_chance": 11, "cells_diverged": 7,
+   "cells_that_train": 2,
+   "cells_near_chance": 11,
+   "cells_diverged": 7,
    "reading": "Only Kaiming trains configuration E at all, and only at the two lowest rates. Its usable window has two different edges: at 1e-2 the network settles at chance, and from 3e-2 upward it diverges outright."
   }
  },
-
  "signal_deficit": {
   "what": "Modelled shortfall in weight standard deviation against Kaiming, compounded over the number of layers left on the weaker initialisation: D = (sigma_Kaiming / sigma_init)^n.",
   "modelled_not_measured": true,
   "bars": [
-   {"case": "A alone",        "init": "Glorot",     "layers": 8,  "deficit": 16,     "measured_val_acc": 48.9},
-   {"case": "E + pre-init",   "init": "Glorot",     "layers": 12, "deficit": 64,     "measured_val_acc": 49.9},
-   {"case": "E alone",        "init": "Glorot",     "layers": 16, "deficit": 256,    "measured_val_acc": 9.1},
-   {"case": "E + pre-init",   "init": "paper init", "layers": 12, "deficit": 6685,   "measured_val_acc": 9.9},
-   {"case": "E alone",        "init": "paper init", "layers": 16, "deficit": 125933, "measured_val_acc": 9.1}
+   {
+    "case": "A alone",
+    "init": "Glorot",
+    "layers": 8,
+    "deficit": 16,
+    "measured_val_acc": 48.9
+   },
+   {
+    "case": "E + pre-init",
+    "init": "Glorot",
+    "layers": 12,
+    "deficit": 64,
+    "measured_val_acc": 49.9
+   },
+   {
+    "case": "E alone",
+    "init": "Glorot",
+    "layers": 16,
+    "deficit": 256,
+    "measured_val_acc": 9.1
+   },
+   {
+    "case": "E + pre-init",
+    "init": "paper init",
+    "layers": 12,
+    "deficit": 6685,
+    "measured_val_acc": 9.9
+   },
+   {
+    "case": "E alone",
+    "init": "paper init",
+    "layers": 16,
+    "deficit": 125933,
+    "measured_val_acc": 9.1
+   }
   ],
-  "threshold_band": [64, 256],
+  "threshold_band": [
+   64,
+   256
+  ],
   "checked_against_measurement": {
    "case": "E alone, Glorot",
    "modelled_deficit": 256,
@@ -49,19 +153,27 @@
   },
   "reading": "Glorot supplies half Kaiming's variance per layer, so the shortfall compounds as (1/sqrt(2)) raised to the number of layers. Over 8 layers that is survivable; over 16 it is not. The paper's pre-initialisation removes four bad layers, and four is enough."
  },
-
  "pre_initialisation": {
   "what": "The paper's procedure: train configuration A, then initialise the deeper network's first four convolutions and last three fully-connected layers from it.",
   "paper_section": "3.1",
   "donor": {
-   "config": "A", "init": "Kaiming", "val_acc_pct": 48.9,
-   "retrained_three_times": [61.8, 63.6, 58.3],
+   "config": "A",
+   "init": "Kaiming",
+   "val_acc_pct": 48.9,
+   "retrained_three_times": [
+    61.8,
+    63.6,
+    58.3
+   ],
    "std_points": 2.7,
    "note": "Retraining the same donor three times spread 5.3 points. Any transplant result inside that spread is not a finding."
   },
   "transplant": {
-   "config": "E", "layers_initialised_from_donor": 7,
-   "remaining_layers_init": "Glorot", "lr": 1e-3, "val_acc_pct": 49.9
+   "config": "E",
+   "layers_initialised_from_donor": 7,
+   "remaining_layers_init": "Glorot",
+   "lr": 0.001,
+   "val_acc_pct": 49.9
   },
   "could_not_be_reproduced": {
    "what": "The paper trains its donor A with its own random initialisation.",
