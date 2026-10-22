@@ -61,8 +61,43 @@ DARK = dict(bg="#0D1117", ink="#E6EDF3", muted="#8B949E", rule="#30363D",
             accent="#A78BFA", accent2="#8B7BE8", warn="#FF7B5A",
             good="#7EE2A8", fill="#161B22")
 
-FAMILY = "Inter" if any(f.name == "Inter" for f in
-                        matplotlib.font_manager.fontManager.ttflist) else "DejaVu Sans"
+FAMILY = "Inter"
+
+# Every column position, sheet height and line of note text in this file was
+# measured against Inter. Another face with different metrics re-flows all of
+# it: DejaVu Sans, matplotlib's default, is wide enough to push three of these
+# sheets past their own margins. That used to happen silently, through a
+# fallback here, so the same script produced different figures on different
+# machines and said nothing. It now stops instead. --font overrides it for
+# anyone who would rather have a figure in the wrong face than none, and the
+# margin and collision checks still apply to whatever comes out.
+#
+# Note that the SVGs themselves need no font installed to READ: svg.fonttype
+# is "path", so the text ships as outlines. The font is a requirement for
+# generating them, not for viewing them.
+FONT_HELP = """
+Install Inter (not Inter Tight, which is a different family with different
+metrics):
+
+    macOS     brew install --cask font-inter
+    Linux     apt install fonts-inter   (or unzip rsms/inter into ~/.fonts)
+    any       https://rsms.me/inter/  then
+              python -c "import matplotlib.font_manager as f; f._load_fontmanager(try_read_cache=False)"
+
+or re-run with --font "<installed family>" to accept a different face.
+"""
+
+
+def resolve_font(requested):
+    import matplotlib.font_manager as fm
+    have = {f.name for f in fm.fontManager.ttflist}
+    if requested in have:
+        return requested
+    near = sorted(n for n in have if requested.split()[0].lower() in n.lower())
+    raise SystemExit(f"figures.py: the font {requested!r} is not installed, and these "
+                     f"figures are laid out for it.\n"
+                     + (f"Similar families found: {', '.join(near[:6])}\n" if near else "")
+                     + FONT_HELP)
 
 
 class Sheet:
@@ -167,7 +202,11 @@ class Sheet:
         wide = self.overruns()
         suffix = "-dark" if self.p is DARK else ""
         path = os.path.join(FIGURES, f"{name}{suffix}.svg")
-        self.fig.savefig(path, format="svg")        # never bbox_inches: it rescales
+        # metadata Date=None drops the timestamp; svg.hashsalt (set in main)
+        # fixes the element ids. Without both, regenerating a figure rewrites
+        # the file with no change to the picture, so "does this still
+        # reproduce?" cannot be answered by comparing the files.
+        self.fig.savefig(path, format="svg", metadata={"Date": None})   # never bbox_inches: it rescales
         if WRITE_PNG and self.p is LIGHT:
             self.fig.savefig(os.path.join(FIGURES, "png", f"{name}.png"),
                              format="png", dpi=PNG_DPI)
@@ -629,7 +668,12 @@ def main():
     ap.add_argument("--png", action="store_true",
                     help="also write figures/png/<name>.png at %d dpi, light palette only, "
                          "for somewhere that cannot serve SVG" % PNG_DPI)
+    ap.add_argument("--font", default=FAMILY,
+                    help=f"font family to lay the figures out in (default {FAMILY}); "
+                         "anything else re-flows every measured position")
     args = ap.parse_args()
+
+    family = resolve_font(args.font)
 
     global WRITE_PNG
     WRITE_PNG = args.png
@@ -637,15 +681,19 @@ def main():
     os.makedirs(FIGURES, exist_ok=True)
     if args.png:
         os.makedirs(os.path.join(FIGURES, "png"), exist_ok=True)
-    plt.rcParams.update({"font.family": FAMILY, "font.size": BODY,
-                         "svg.fonttype": "path"})   # text as paths: no font on the reader
+    plt.rcParams.update({"font.family": family, "font.size": BODY,
+                         "svg.fonttype": "path",    # text as paths: no font on the reader
+                         "svg.hashsalt": "vgg"})    # deterministic element ids
     ok = True
     for name in (args.only or sorted(FIGURES_ALL)):
         for pal in (LIGHT, DARK):
             ok &= FIGURES_ALL[name](pal)
         print(f"   {name}.svg + {name}-dark.svg")
-    print("\nall figures fit" if ok else "\nSOME FIGURE OVERFLOWS ITS CANVAS")
+    print("\nall figures fit" if ok else "\nSOME FIGURE FAILED ITS CHECKS")
+    # A caller that only looks at the exit status has to be told, or a
+    # wrapper or CI step walks straight past the warnings above.
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
