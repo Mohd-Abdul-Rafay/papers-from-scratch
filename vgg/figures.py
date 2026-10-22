@@ -48,6 +48,7 @@ WIDTH_IN = 9.0
 # never the limit. Type size was.
 PNG_DPI = 192
 WRITE_PNG = False
+WRITE_WEBP = False
 CREATOR = "figures.py"
 
 BODY = 11.0
@@ -243,9 +244,11 @@ class Sheet:
         # reproduce?" cannot be answered by comparing the files.
         self.fig.savefig(path, format="svg",                 # never bbox_inches: it rescales
                          metadata={"Date": None, "Creator": CREATOR})
-        if WRITE_PNG and self.p is LIGHT:
-            self.fig.savefig(os.path.join(FIGURES, "png", f"{name}.png"),
-                             format="png", dpi=PNG_DPI)
+        if (WRITE_PNG or WRITE_WEBP) and self.p is LIGHT:
+            png = os.path.join(FIGURES, "png", f"{name}.png")
+            self.fig.savefig(png, format="png", dpi=PNG_DPI)
+            if WRITE_WEBP:
+                write_webp(png, keep_png=WRITE_PNG)
         plt.close(self.fig)
         for s1, s2 in hits:
             print(f"   !! {name}{suffix}: text overlaps — {s1!r} / {s2!r}")
@@ -255,6 +258,25 @@ class Sheet:
         if over:
             print(f"   !! {name}{suffix}: content ends at {self.y:.2f} of {self.h:.2f} in")
         return not over and not hits and not wide
+
+
+def write_webp(png_path, keep_png):
+    """Lossless WebP beside the PNG, from the same pixels.
+
+    Lossless, not quality 95: these sheets are flat colour and text, where
+    lossless WebP came out smaller than lossy at q92 as well as smaller than
+    PNG -- about 60% off the PNG -- with nothing given up. Lossy on text is a
+    bad trade at any size.
+    """
+    try:
+        from PIL import Image
+    except ImportError:
+        raise SystemExit("figures.py: --webp needs Pillow (pip install Pillow), "
+                         "or use --png and convert the files yourself.")
+    out = png_path[:-4] + ".webp"
+    Image.open(png_path).convert("RGB").save(out, "WEBP", lossless=True, method=6)
+    if not keep_png:
+        os.remove(png_path)
 
 
 def load(name):
@@ -704,6 +726,9 @@ def main():
     ap.add_argument("--png", action="store_true",
                     help="also write figures/png/<name>.png at %d dpi, light palette only, "
                          "for somewhere that cannot serve SVG" % PNG_DPI)
+    ap.add_argument("--webp", action="store_true",
+                    help="write figures/png/<name>.webp instead, lossless and about "
+                         "60%% smaller than the PNG; --png --webp keeps both")
     ap.add_argument("--font", default=FAMILY,
                     help=f"font family to lay the figures out in (default {FAMILY}); "
                          "anything else re-flows every measured position")
@@ -720,11 +745,11 @@ def main():
               f"({FONT_VERSION}). The checks below still apply, but the committed "
               f"SVGs will not reproduce byte for byte.")
 
-    global WRITE_PNG
-    WRITE_PNG = args.png
+    global WRITE_PNG, WRITE_WEBP
+    WRITE_PNG, WRITE_WEBP = args.png, args.webp
 
     os.makedirs(FIGURES, exist_ok=True)
-    if args.png:
+    if args.png or args.webp:
         os.makedirs(os.path.join(FIGURES, "png"), exist_ok=True)
     plt.rcParams.update({"font.family": family, "font.size": BODY,
                          "svg.fonttype": "path",    # text as paths: no font on the reader
