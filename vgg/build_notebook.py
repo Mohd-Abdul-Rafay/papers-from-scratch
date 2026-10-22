@@ -89,6 +89,8 @@ All six match. The paper prints them rounded to millions, which is why A, A-LRN 
 
 A and A-LRN are identical because local response normalization has no parameters. That is correct, and
 it is also the first hint that Table 2 is measuring cost in the wrong currency — we come back to it in §3.
+
+![](figures/configs.svg)
 """),
 
 md("""
