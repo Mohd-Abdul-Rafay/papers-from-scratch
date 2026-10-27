@@ -1,0 +1,94 @@
+{
+ "_provenance": {
+  "produced_by": "rebuild_from_log.py",
+  "RECONSTRUCTED": true,
+  "reconstructed_from": "notebook cell output, transcribed from log_resnet_paper.txt",
+  "why": "the Colab runtime disconnected before these results were copied off its local disk; the notebook's printed output survived and was transcribed back. The numbers are the measured numbers. This FILE was not written by train_cifar.py and is a secondary record -- prefer a re-run if anything depends on it.",
+  "not_recovered": [
+   "torch version -- not printed by the run",
+   "the seed -- not printed; train_cifar.py's default is 0",
+   "full float precision of train_error/test_error: the log prints 2 decimals, the original JSON stored 3",
+   "the exact learning-rate floats: the log prints 0.0010, the optimizer held 0.0010000000000000002",
+   "the clean-pass train/test errors are kept, but the intermediate per-batch state that produced them is not recoverable"
+  ],
+  "settings": {
+   "batch_size": 128,
+   "lr": 0.1,
+   "momentum": 0.9,
+   "weight_decay": 0.0001
+  },
+  "schedule": {
+   "name": "paper",
+   "iterations": 64000,
+   "lr_drops": [
+    32000,
+    48000
+   ]
+  },
+  "paper_schedule": true,
+  "train_set": "all 50,000 training images; test error on the 10,000 test images",
+  "device": "cuda - NVIDIA A100-SXM4-80GB",
+  "normalisation": {
+   "mean": [
+    0.4914,
+    0.4822,
+    0.4465
+   ],
+   "std": [
+    0.247,
+    0.2435,
+    0.2616
+   ]
+  },
+  "torch": null,
+  "seconds": 876.0,
+  "note": "train_error inside history is the running error over the training batches since the last log -- measured WITH augmentation, in train() mode, which is what the paper's curves plot. final_train_error is a separate pass over the same 50,000 images with augmentation off, in eval() mode, and that is the number the degradation claim is about. 'seconds' inside each history entry is wall clock since the run started; train_cifar.py does not record it, the printed log did."
+ },
+ "model": "resnet20",
+ "depth": 20,
+ "parameters": 269722,
+ "final_train_error": 0.38,
+ "final_test_error": 8.62,
+ "history": [
+  {"iteration": 1600, "lr": 0.1, "train_error": 39.23, "test_error": 28.17, "seconds": 23.0},
+  {"iteration": 3200, "lr": 0.1, "train_error": 19.82, "test_error": 22.3, "seconds": 45.0},
+  {"iteration": 4800, "lr": 0.1, "train_error": 15.93, "test_error": 19.53, "seconds": 67.0},
+  {"iteration": 6400, "lr": 0.1, "train_error": 13.95, "test_error": 19.77, "seconds": 89.0},
+  {"iteration": 8000, "lr": 0.1, "train_error": 12.67, "test_error": 17.52, "seconds": 111.0},
+  {"iteration": 9600, "lr": 0.1, "train_error": 11.77, "test_error": 20.38, "seconds": 132.0},
+  {"iteration": 11200, "lr": 0.1, "train_error": 11.18, "test_error": 15.43, "seconds": 154.0},
+  {"iteration": 12800, "lr": 0.1, "train_error": 10.69, "test_error": 15.69, "seconds": 175.0},
+  {"iteration": 14400, "lr": 0.1, "train_error": 10.26, "test_error": 17.29, "seconds": 197.0},
+  {"iteration": 16000, "lr": 0.1, "train_error": 9.75, "test_error": 15.8, "seconds": 218.0},
+  {"iteration": 17600, "lr": 0.1, "train_error": 9.57, "test_error": 14.76, "seconds": 240.0},
+  {"iteration": 19200, "lr": 0.1, "train_error": 9.31, "test_error": 17.72, "seconds": 261.0},
+  {"iteration": 20800, "lr": 0.1, "train_error": 9.13, "test_error": 14.67, "seconds": 282.0},
+  {"iteration": 22400, "lr": 0.1, "train_error": 8.88, "test_error": 14.48, "seconds": 304.0},
+  {"iteration": 24000, "lr": 0.1, "train_error": 8.72, "test_error": 13.43, "seconds": 326.0},
+  {"iteration": 25600, "lr": 0.1, "train_error": 8.6, "test_error": 16.64, "seconds": 348.0},
+  {"iteration": 27200, "lr": 0.1, "train_error": 8.54, "test_error": 13.99, "seconds": 369.0},
+  {"iteration": 28800, "lr": 0.1, "train_error": 8.32, "test_error": 14.91, "seconds": 391.0},
+  {"iteration": 30400, "lr": 0.1, "train_error": 8.27, "test_error": 13.84, "seconds": 414.0},
+  {"iteration": 32000, "lr": 0.01, "train_error": 8.1, "test_error": 12.22, "seconds": 435.0},
+  {"iteration": 33600, "lr": 0.01, "train_error": 3.9, "test_error": 8.9, "seconds": 457.0},
+  {"iteration": 35200, "lr": 0.01, "train_error": 2.9, "test_error": 8.76, "seconds": 479.0},
+  {"iteration": 36800, "lr": 0.01, "train_error": 2.59, "test_error": 8.63, "seconds": 501.0},
+  {"iteration": 38400, "lr": 0.01, "train_error": 2.23, "test_error": 8.62, "seconds": 522.0},
+  {"iteration": 40000, "lr": 0.01, "train_error": 2.01, "test_error": 8.7, "seconds": 543.0},
+  {"iteration": 41600, "lr": 0.01, "train_error": 1.83, "test_error": 8.94, "seconds": 565.0},
+  {"iteration": 43200, "lr": 0.01, "train_error": 1.66, "test_error": 9.09, "seconds": 587.0},
+  {"iteration": 44800, "lr": 0.01, "train_error": 1.55, "test_error": 9.1, "seconds": 609.0},
+  {"iteration": 46400, "lr": 0.01, "train_error": 1.37, "test_error": 9.04, "seconds": 631.0},
+  {"iteration": 48000, "lr": 0.001, "train_error": 1.33, "test_error": 9.1, "seconds": 653.0},
+  {"iteration": 49600, "lr": 0.001, "train_error": 1.0, "test_error": 8.69, "seconds": 674.0},
+  {"iteration": 51200, "lr": 0.001, "train_error": 0.92, "test_error": 8.7, "seconds": 696.0},
+  {"iteration": 52800, "lr": 0.001, "train_error": 0.84, "test_error": 8.54, "seconds": 718.0},
+  {"iteration": 54400, "lr": 0.001, "train_error": 0.81, "test_error": 8.77, "seconds": 739.0},
+  {"iteration": 56000, "lr": 0.001, "train_error": 0.79, "test_error": 8.68, "seconds": 761.0},
+  {"iteration": 57600, "lr": 0.001, "train_error": 0.71, "test_error": 8.61, "seconds": 783.0},
+  {"iteration": 59200, "lr": 0.001, "train_error": 0.72, "test_error": 8.62, "seconds": 804.0},
+  {"iteration": 60800, "lr": 0.001, "train_error": 0.73, "test_error": 8.61, "seconds": 826.0},
+  {"iteration": 62400, "lr": 0.001, "train_error": 0.69, "test_error": 8.58, "seconds": 848.0},
+  {"iteration": 64000, "lr": 0.001, "train_error": 0.69, "test_error": 8.62, "seconds": 871.0}
+ ]
+}

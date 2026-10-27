@@ -230,3 +230,9 @@ vgg/results/analysis.json
 
 # figures.py --png writes derived rasters here for sites that cannot serve SVG
 vgg/figures/png/
+
+# figures.py --png writes derived rasters here for sites that cannot serve SVG
+resnet/figures/png/
+
+# CIFAR-10 lands here; prepare_data.py fetches and md5-verifies it
+resnet/dataset/
