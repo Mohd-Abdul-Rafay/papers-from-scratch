@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/pytorch-2.0%2B-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Papers implemented](https://img.shields.io/badge/papers-3-informational?style=flat-square)](#implemented-papers)
+[![Papers implemented](https://img.shields.io/badge/papers-4-informational?style=flat-square)](#implemented-papers)
 
 This repo holds from-scratch PyTorch reimplementations of foundational computer
 vision papers, built to match what each paper describes rather than what later
@@ -16,7 +16,11 @@ connection table, and pick the predicted class with `argmax` from what are
 actually distances. Common implementations of VGG's dense evaluation leave
 torchvision's adaptive pool in place, which collapses the score map to 1×1 and
 turns the procedure back into the single-crop evaluation it was meant to
-replace — without raising an error. Each implementation here checks its counts
+replace — without raising an error. Common implementations of ResNet's CIFAR
+experiments reach for projection shortcuts, which give the residual net more
+parameters than the plain net it is supposed to be compared against, and the
+controlled comparison the paper's whole argument rests on is gone. Each
+implementation here checks its counts
 against the paper's own figures, and each README lists the details that are easy
 to get wrong and every place the code still departs from the paper.
 
@@ -27,13 +31,17 @@ to get wrong and every place the code still departs from the paper.
 | LeNet-5 | [Gradient-Based Learning Applied to Document Recognition](https://doi.org/10.1109/5.726791) | LeCun, Bottou, Bengio, Haffner | 1998 | [`lenet5/`](lenet5/) |
 | AlexNet | [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html) | Krizhevsky, Sutskever, Hinton | 2012 | [`alexnet/`](alexnet/) |
 | VGG | [Very Deep Convolutional Networks for Large-Scale Image Recognition](https://arxiv.org/abs/1409.1556) | Simonyan, Zisserman | 2015 | [`vgg/`](vgg/) |
+| ResNet | [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385) | He, Zhang, Ren, Sun | 2016 | [`resnet/`](resnet/) |
 
 The LeNet-5 and AlexNet papers are not on arXiv; those links go to the official
 publication pages. Paper PDFs are not committed to this repo.
 
 ## Verification
 
-All counts are from `torchinfo` output, not computed by hand.
+All counts are from `torchinfo` output, not computed by hand. The ResNet rows
+are the exception: `resnet/verify.py` derives the expected total from the layer
+shapes alone and checks it against torch's own count, so the two agree without
+either one being typed in.
 
 | Model | Quantity | This repo | Paper | Match |
 |---|---|---:|---:|---|
@@ -46,6 +54,10 @@ All counts are from `torchinfo` output, not computed by hand.
 | VGG | FC-to-conv conversion (§3.2) | agrees with the original network to 1.9e-08 | exact rewriting | Float32 round-off only |
 | VGG | Pipeline against an external reference | 28.418% top-1 error | 28.408% reported by torchvision for these weights | 5 images in 50,000 |
 | VGG | Table 5 ordering, 50,000 ILSVRC images | 25.242 / 25.100 / 24.812 top-1 | 24.8 / 24.6 / 24.4 | Ordering and gaps reproduce; see [`vgg/`](vgg/README.md#the-evaluation-study) |
+| ResNet | Parameters, all five depths | 269,722 / 464,154 / 658,586 / 853,018 / 1,727,962 | 0.27 / 0.46 / 0.66 / 0.85 / 1.7 million (Table 6) | Exact, 5 of 5 depths |
+| ResNet | Plain against residual, same depth | identical at every depth | "exactly the same depth, width, and number of parameters" (§4.2) | Exact — option A is parameter-free |
+| ResNet | Test error, resnet20 and resnet56, 4 seeds each | 8.51–8.62 / 6.70–7.41 | 8.75 / 6.97 (Table 6) | 6.97 falls inside the range; 8.75 sits 0.13 above it |
+| ResNet | Degradation, plain56 − plain20 training error | +1.99 to +4.49 over 4 seeds | higher training error with depth (§1) | Sign reproduces in every seed; the size does not survive the spread |
 
 Each model's README has the layer-by-layer breakdown.
 
@@ -99,6 +111,12 @@ python vgg/cost.py                                         # needs a CUDA GPU
 python vgg/init_study.py --data /path/to/imagenette2
 python vgg/dense_eval.py --data /path/to/imagenet/val      # 1,000 wnid folders
 python vgg/analysis.py --ranks crop:dense                  # on saved posteriors
+
+python resnet/figures.py                                   # no data, no GPU
+python resnet/verify.py                                    # no data, no GPU
+python resnet/floor.py                                     # no data, no GPU
+python resnet/prepare_data.py --data resnet/dataset        # fetches CIFAR-10
+python resnet/train_cifar.py --models plain20 plain56 --seeds 0 1 2
 ```
 
 Measurement and presentation are kept apart on purpose: the scripts write their
@@ -139,7 +157,16 @@ than against other implementations:
    convolution — convolution is linear. The depth claim in §2.3 only survives
    because of the non-linearity between the layers, which the cost comparison
    (27C² against 49C²) does not mention. [Details](vgg/README.md#why-33-stacks)
-5. **Dense evaluation's gain is in the candidate list, not the top slot.**
+5. **ResNet's CIFAR comparison only works because option A costs nothing.**
+   §4.2 uses parameter-free shortcuts — subsample, then zero-pad the new
+   channels — precisely so the residual nets have "exactly the same depth,
+   width, and number of parameters as the plain counterparts". plain56 and
+   resnet56 both hold 853,018 weights here. Swap in 1×1 projections, as most
+   implementations do, and the two nets stop being comparable. Separately, the
+   construction argument's floor is measurable: zero every block's convolution
+   weights and plain56's signal is gone after one block, while resnet56 passes
+   its input through all twenty-seven. [Details](resnet/README.md#details-most-implementations-get-wrong)
+6. **Dense evaluation's gain is in the candidate list, not the top slot.**
    Measured over all 50,000 ILSVRC validation images, dense evaluation beats
    centre-cropping clearly on top-5 and not at all on top-1 at a single scale,
    and it never pushes a correct answer out of the top five. Separately,

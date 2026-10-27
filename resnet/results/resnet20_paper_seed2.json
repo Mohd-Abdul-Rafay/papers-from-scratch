@@ -1,0 +1,327 @@
+{
+ "_provenance": {
+  "produced_by": "train_cifar.py",
+  "RECONSTRUCTED": false,
+  "settings": {
+   "batch_size": 128,
+   "lr": 0.1,
+   "momentum": 0.9,
+   "weight_decay": 0.0001
+  },
+  "schedule": {
+   "name": "paper",
+   "iterations": 64000,
+   "lr_drops": [
+    32000,
+    48000
+   ]
+  },
+  "paper_schedule": true,
+  "seed": 2,
+  "train_set": "all 50,000 training images; test error on the 10,000 test images",
+  "normalisation": {
+   "mean": [
+    0.4913996786152028,
+    0.4821584083946074,
+    0.4465309144454644
+   ],
+   "std": [
+    0.24703223246328238,
+    0.2434851280000556,
+    0.26158784172796423
+   ],
+   "kind": "per-channel mean and std; the paper uses the per-pixel mean"
+  },
+  "device": "cuda - NVIDIA A100-SXM4-80GB",
+  "torch": "2.11.0+cu130",
+  "seconds": 925.6,
+  "note": "train_error inside history is the running error over the training batches since the last log -- measured WITH augmentation, in train() mode, which is what the paper's curves plot. final_train_error is a separate pass over the same 50,000 images with augmentation off, in eval() mode, and that is the number the degradation claim is about."
+ },
+ "model": "resnet20",
+ "depth": 20,
+ "parameters": 269722,
+ "final_train_error": 0.324,
+ "final_test_error": 8.51,
+ "history": [
+  {
+   "iteration": 1600,
+   "lr": 0.1,
+   "train_error": 39.026,
+   "test_error": 32.93,
+   "seconds": 23.9
+  },
+  {
+   "iteration": 3200,
+   "lr": 0.1,
+   "train_error": 20.443,
+   "test_error": 20.65,
+   "seconds": 48.0
+  },
+  {
+   "iteration": 4800,
+   "lr": 0.1,
+   "train_error": 16.405,
+   "test_error": 23.07,
+   "seconds": 71.3
+  },
+  {
+   "iteration": 6400,
+   "lr": 0.1,
+   "train_error": 14.373,
+   "test_error": 18.86,
+   "seconds": 95.5
+  },
+  {
+   "iteration": 8000,
+   "lr": 0.1,
+   "train_error": 12.96,
+   "test_error": 17.6,
+   "seconds": 119.8
+  },
+  {
+   "iteration": 9600,
+   "lr": 0.1,
+   "train_error": 12.069,
+   "test_error": 20.46,
+   "seconds": 143.9
+  },
+  {
+   "iteration": 11200,
+   "lr": 0.1,
+   "train_error": 11.226,
+   "test_error": 15.16,
+   "seconds": 167.9
+  },
+  {
+   "iteration": 12800,
+   "lr": 0.1,
+   "train_error": 10.642,
+   "test_error": 16.62,
+   "seconds": 192.7
+  },
+  {
+   "iteration": 14400,
+   "lr": 0.1,
+   "train_error": 10.251,
+   "test_error": 13.99,
+   "seconds": 216.7
+  },
+  {
+   "iteration": 16000,
+   "lr": 0.1,
+   "train_error": 9.933,
+   "test_error": 13.78,
+   "seconds": 240.5
+  },
+  {
+   "iteration": 17600,
+   "lr": 0.1,
+   "train_error": 9.457,
+   "test_error": 14.87,
+   "seconds": 264.8
+  },
+  {
+   "iteration": 19200,
+   "lr": 0.1,
+   "train_error": 9.201,
+   "test_error": 13.46,
+   "seconds": 289.2
+  },
+  {
+   "iteration": 20800,
+   "lr": 0.1,
+   "train_error": 8.981,
+   "test_error": 14.59,
+   "seconds": 313.1
+  },
+  {
+   "iteration": 22400,
+   "lr": 0.1,
+   "train_error": 8.736,
+   "test_error": 15.75,
+   "seconds": 337.0
+  },
+  {
+   "iteration": 24000,
+   "lr": 0.1,
+   "train_error": 8.68,
+   "test_error": 14.73,
+   "seconds": 360.9
+  },
+  {
+   "iteration": 25600,
+   "lr": 0.1,
+   "train_error": 8.468,
+   "test_error": 12.83,
+   "seconds": 384.8
+  },
+  {
+   "iteration": 27200,
+   "lr": 0.1,
+   "train_error": 8.449,
+   "test_error": 14.51,
+   "seconds": 408.9
+  },
+  {
+   "iteration": 28800,
+   "lr": 0.1,
+   "train_error": 8.332,
+   "test_error": 15.08,
+   "seconds": 432.8
+  },
+  {
+   "iteration": 30400,
+   "lr": 0.1,
+   "train_error": 8.104,
+   "test_error": 14.15,
+   "seconds": 454.3
+  },
+  {
+   "iteration": 32000,
+   "lr": 0.010000000000000002,
+   "train_error": 8.032,
+   "test_error": 12.1,
+   "seconds": 476.7
+  },
+  {
+   "iteration": 33600,
+   "lr": 0.010000000000000002,
+   "train_error": 3.822,
+   "test_error": 8.77,
+   "seconds": 498.9
+  },
+  {
+   "iteration": 35200,
+   "lr": 0.010000000000000002,
+   "train_error": 2.837,
+   "test_error": 8.44,
+   "seconds": 520.9
+  },
+  {
+   "iteration": 36800,
+   "lr": 0.010000000000000002,
+   "train_error": 2.394,
+   "test_error": 8.61,
+   "seconds": 544.0
+  },
+  {
+   "iteration": 38400,
+   "lr": 0.010000000000000002,
+   "train_error": 2.161,
+   "test_error": 8.53,
+   "seconds": 565.9
+  },
+  {
+   "iteration": 40000,
+   "lr": 0.010000000000000002,
+   "train_error": 1.918,
+   "test_error": 8.53,
+   "seconds": 589.0
+  },
+  {
+   "iteration": 41600,
+   "lr": 0.010000000000000002,
+   "train_error": 1.779,
+   "test_error": 8.63,
+   "seconds": 611.6
+  },
+  {
+   "iteration": 43200,
+   "lr": 0.010000000000000002,
+   "train_error": 1.575,
+   "test_error": 8.45,
+   "seconds": 633.4
+  },
+  {
+   "iteration": 44800,
+   "lr": 0.010000000000000002,
+   "train_error": 1.512,
+   "test_error": 9.05,
+   "seconds": 655.8
+  },
+  {
+   "iteration": 46400,
+   "lr": 0.010000000000000002,
+   "train_error": 1.371,
+   "test_error": 8.68,
+   "seconds": 677.9
+  },
+  {
+   "iteration": 48000,
+   "lr": 0.0010000000000000002,
+   "train_error": 1.325,
+   "test_error": 8.49,
+   "seconds": 700.0
+  },
+  {
+   "iteration": 49600,
+   "lr": 0.0010000000000000002,
+   "train_error": 0.961,
+   "test_error": 8.52,
+   "seconds": 723.1
+  },
+  {
+   "iteration": 51200,
+   "lr": 0.0010000000000000002,
+   "train_error": 0.834,
+   "test_error": 8.53,
+   "seconds": 745.4
+  },
+  {
+   "iteration": 52800,
+   "lr": 0.0010000000000000002,
+   "train_error": 0.771,
+   "test_error": 8.39,
+   "seconds": 767.3
+  },
+  {
+   "iteration": 54400,
+   "lr": 0.0010000000000000002,
+   "train_error": 0.762,
+   "test_error": 8.45,
+   "seconds": 789.4
+  },
+  {
+   "iteration": 56000,
+   "lr": 0.0010000000000000002,
+   "train_error": 0.739,
+   "test_error": 8.48,
+   "seconds": 811.4
+  },
+  {
+   "iteration": 57600,
+   "lr": 0.0010000000000000002,
+   "train_error": 0.748,
+   "test_error": 8.46,
+   "seconds": 833.5
+  },
+  {
+   "iteration": 59200,
+   "lr": 0.0010000000000000002,
+   "train_error": 0.68,
+   "test_error": 8.5,
+   "seconds": 856.0
+  },
+  {
+   "iteration": 60800,
+   "lr": 0.0010000000000000002,
+   "train_error": 0.683,
+   "test_error": 8.6,
+   "seconds": 878.6
+  },
+  {
+   "iteration": 62400,
+   "lr": 0.0010000000000000002,
+   "train_error": 0.697,
+   "test_error": 8.4,
+   "seconds": 900.9
+  },
+  {
+   "iteration": 64000,
+   "lr": 0.0010000000000000002,
+   "train_error": 0.687,
+   "test_error": 8.51,
+   "seconds": 922.9
+  }
+ ]
+}
